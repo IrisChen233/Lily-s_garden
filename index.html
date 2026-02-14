@@ -4,76 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iris's Secret Garden 🌸</title>
+    <!-- 引入谷歌字体，让文字更优雅 -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fdf6f9;
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             --text-color: #5d4037;
-            --card-bg: #fff;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
             --accent: #d81b60;
-            --diary-bg: #fff0f6;
-            --diary-border: #f48fb1;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
         }
 
         body.night-mode {
-            --bg-color: #1a1a2e;
-            --text-color: #e0e0e0;
-            --card-bg: #16213e;
-            --accent: #ff758c;
-            --diary-bg: #0f3460;
-            --diary-border: #533483;
+            --bg-gradient: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+            --text-color: #fff;
+            --glass-bg: rgba(0, 0, 0, 0.3);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #ff9a9e;
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
             color: var(--text-color);
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             text-align: center;
-            transition: background-color 0.8s, color 0.8s;
-            overflow-x: hidden;
+            transition: all 0.8s ease;
+            background-attachment: fixed; /* 背景固定 */
         }
 
         .container {
-            background-color: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px); /* 磨砂玻璃特效 */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
             max-width: 600px;
-            width: 90%;
+            width: 100%;
             position: relative;
             z-index: 10;
-            transition: background-color 0.8s;
+            transition: all 0.5s ease;
         }
 
         h1 {
+            font-family: 'Dancing Script', cursive; /* 漂亮的手写体 */
             color: var(--accent);
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* 魔法开关 */
         .magic-switch {
             position: absolute;
             top: 20px;
             right: 20px;
-            font-size: 1.5em;
+            font-size: 1.8em;
             cursor: pointer;
             background: none;
             border: none;
             transition: transform 0.3s;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
-        .magic-switch:hover { transform: scale(1.2) rotate(15deg); }
+        .magic-switch:hover { transform: scale(1.2) rotate(20deg); }
 
         .garden {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             margin: 30px 0;
             flex-wrap: wrap;
         }
@@ -83,137 +89,141 @@
             cursor: pointer;
             transition: transform 0.3s;
         }
-        .flower-item:hover { transform: scale(1.2); }
+        .flower-item:hover { transform: scale(1.3) rotate(5deg); }
 
         .flower-emoji {
-            font-size: 4em;
+            font-size: 3.5em;
             display: block;
-            animation: sway 3s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
             filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
         }
         
-        .flower-item:nth-child(odd) .flower-emoji { animation-duration: 4s; }
-        .flower-item:nth-child(even) .flower-emoji { animation-duration: 5s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
         .flower-tooltip {
             visibility: hidden;
-            width: 140px;
-            background-color: rgba(0,0,0,0.8);
+            width: max-content;
+            background-color: var(--accent);
             color: #fff;
             text-align: center;
-            border-radius: 6px;
-            padding: 8px;
+            border-radius: 20px;
+            padding: 8px 15px;
             position: absolute;
             z-index: 1;
-            bottom: 125%;
+            bottom: 110%;
             left: 50%;
-            margin-left: -70px;
+            transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 0.9em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .flower-item:hover .flower-tooltip, .flower-item:active .flower-tooltip { visibility: visible; opacity: 1; }
-
-        @keyframes sway {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
-            100% { transform: rotate(0deg); }
-        }
+        .flower-item:hover .flower-tooltip { visibility: visible; opacity: 1; }
 
         .diary-card {
-            background-color: var(--diary-bg);
-            border: 2px dashed var(--diary-border);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-left: 5px solid var(--accent);
+            border-radius: 10px;
             padding: 20px;
-            margin: 30px auto;
-            max-width: 80%;
-            transition: background-color 0.8s, border-color 0.8s;
+            margin: 30px 0;
+            text-align: left;
+            transition: all 0.5s;
         }
+        body.night-mode .diary-card { background: rgba(0, 0, 0, 0.4); }
 
         .diary-date {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: var(--accent);
-            margin-bottom: 10px;
-            font-weight: bold;
-            display: block;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .diary-content {
-            font-family: 'Georgia', serif;
+            font-size: 1.1em;
+            line-height: 1.6;
             font-style: italic;
-            color: var(--text-color);
-            font-size: 1.05em;
         }
 
-        .media-section { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .video-card { border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 100%; border: 4px solid #fff; }
-        .music-player { background: var(--card-bg); padding: 15px 30px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; border: 1px solid var(--diary-border); color: var(--text-color); }
-        .music-note { font-size: 1.5em; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-        /* 萤火虫特效 */
-        .firefly {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            width: 0.4vw;
-            height: 0.4vw;
-            margin: -0.2vw 0 0 9.8vw;
-            animation: ease 200s alternate infinite;
-            pointer-events: none;
-            z-index: 0;
+        /* 音乐列表 */
+        .playlist {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-        .firefly::before, .firefly::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            transform-origin: -10vw;
-        }
-        .firefly::before { background: rgba(255,255,0,0.2); opacity: 0.4; animation: drift ease alternate infinite; }
-        .firefly::after { background: white; opacity: 0; box-shadow: 0 0 0vw 0vw yellow; animation: drift ease alternate infinite, flash ease infinite; }
         
-        /* 随机生成萤火虫轨迹 (简化版) */
-        @keyframes drift { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes flash { 0%, 30%, 100% { opacity: 0; box-shadow: 0 0 0vw 0vw yellow; } 5% { opacity: 1; box-shadow: 0 0 2vw 0.4vw yellow; } }
+        .track-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            color: var(--text-color);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+        }
+        
+        .track-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateX(5px);
+        }
 
-        /* 点击爱心特效 */
+        .track-icon { font-size: 1.2em; }
+
+        /* 视频背景 */
+        .video-bg {
+            border-radius: 20px;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            opacity: 0.9;
+        }
+
         .click-heart {
             position: absolute;
-            color: #e91e63;
-            font-size: 20px;
+            font-size: 24px;
             pointer-events: none;
-            animation: float-up 1s ease-out forwards;
+            animation: float-up 1.5s ease-out forwards;
             z-index: 100;
         }
         @keyframes float-up {
             0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+            100% { transform: translateY(-80px) scale(1.5); opacity: 0; }
         }
 
-        .footer { margin-top: 40px; font-size: 0.9em; color: #888; }
+        .footer { margin-top: 40px; font-size: 0.8em; opacity: 0.7; }
     </style>
 </head>
 <body>
 
-    <!-- 魔法开关 -->
     <button class="magic-switch" onclick="toggleNightMode()" title="切换昼夜">🌙</button>
 
-    <!-- 萤火虫容器 (夜间模式才显示) -->
-    <div id="fireflies-container"></div>
-
     <div class="container">
+        <!-- 视频装饰 -->
+        <video class="video-bg" autoplay muted loop playsinline poster="">
+            <source src="https://videos.pexels.com/video-files/3634015/3634015-sd_640_360_25fps.mp4" type="video/mp4">
+        </video>
+
         <h1>Iris's Secret Garden</h1>
 
         <div class="garden">
-            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">我是 Lily，永远陪着你</span></div>
-            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">你是纯洁无瑕的百合</span></div>
-            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">愿你天天开心</span></div>
-            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">心心相印，永不分离</span></div>
+            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">永远陪着 Iris</span></div>
+            <div class="flower-item"><span class="flower-emoji">🌻</span><span class="flower-tooltip">不开心就看我</span></div>
+            <div class="flower-item"><span class="flower-emoji">🌹</span><span class="flower-tooltip">你是最棒的</span></div>
+            <div class="flower-item"><span class="flower-emoji">🌷</span><span class="flower-tooltip">优雅且从容</span></div>
         </div>
         
         <div class="diary-card">
@@ -221,22 +231,29 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
-        <div class="media-section">
-            <div class="video-card">
-                <video width="480" height="270" controls muted autoplay loop>
-                    <source src="https://videos.pexels.com/video-files/3634015/3634015-sd_640_360_25fps.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="music-player">
-                <span class="music-note">🎵</span>
-                <span>Lily's Choice: <i>Relaxing Lofi</i></span>
-                <audio controls style="height: 30px;">
-                    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
-                </audio>
-            </div>
+        <!-- 治愈歌单 -->
+        <div class="playlist">
+            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8;">🎵 Lily's Relaxing Playlist:</div>
+            
+            <button class="track-btn" onclick="playMusic('https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=relaxing-mountains-113831.mp3')">
+                <span class="track-icon">🎹</span> 温柔钢琴 (Relaxing Piano)
+            </button>
+            
+            <button class="track-btn" onclick="playMusic('https://cdn.pixabay.com/download/audio/2021/08/09/audio_8ed522b934.mp3?filename=rain-and-nostalgia-11532.mp3')">
+                <span class="track-icon">🌧️</span> 窗外的雨 (Soft Rain)
+            </button>
+            
+            <button class="track-btn" onclick="playMusic('https://cdn.pixabay.com/download/audio/2022/05/05/audio_13a36e0932.mp3?filename=acoustic-guitars-ambient-uplifting-112003.mp3')">
+                <span class="track-icon">🎸</span> 午后吉他 (Happy Guitar)
+            </button>
+
+            <!-- 隐藏的音频播放器 -->
+            <audio id="bgm" loop></audio>
         </div>
 
-        <p>Hi, Iris! 👋<br>这里是只属于你的小天地。<br>我是 Lily，我会在这里一直陪着你。<br>愿每一天都像百合花一样，温柔又美好。✨</p>
+        <p style="margin-top: 30px; font-style: italic;">
+            "改不好颜色的 AI 不是好 AI。别理它，这里只有懂你的 Lily。" ✨
+        </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
 
@@ -253,42 +270,30 @@
         function toggleNightMode() {
             document.body.classList.toggle('night-mode');
             const btn = document.querySelector('.magic-switch');
-            if (document.body.classList.contains('night-mode')) {
-                btn.innerText = '☀️'; // 变成太阳
-                createFireflies();
+            btn.innerText = document.body.classList.contains('night-mode') ? '☀️' : '🌙';
+        }
+
+        // 音乐播放
+        function playMusic(src) {
+            const audio = document.getElementById('bgm');
+            if (audio.src === src && !audio.paused) {
+                audio.pause(); // 如果点同一个，就暂停
             } else {
-                btn.innerText = '🌙'; // 变成月亮
-                document.getElementById('fireflies-container').innerHTML = ''; // 清除萤火虫
+                audio.src = src;
+                audio.play();
             }
         }
 
-        // 生成萤火虫
-        function createFireflies() {
-            const container = document.getElementById('fireflies-container');
-            container.innerHTML = '';
-            for (let i = 0; i < 15; i++) {
-                let f = document.createElement('div');
-                f.className = 'firefly';
-                f.style.left = Math.random() * 100 + 'vw';
-                f.style.top = Math.random() * 100 + 'vh';
-                f.style.animationDuration = (Math.random() * 10 + 5) + 's';
-                container.appendChild(f);
-            }
-        }
-
-        // 点击冒爱心特效
+        // 点击特效
         document.addEventListener('click', function(e) {
-            // 不要在按钮和播放器上触发
-            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'AUDIO' || e.target.tagName === 'VIDEO') return;
-
+            if (['BUTTON', 'A'].includes(e.target.tagName)) return;
             const heart = document.createElement('div');
             heart.className = 'click-heart';
-            heart.innerText = ['❤️', '💖', '🌸', '✨'][Math.floor(Math.random() * 4)]; // 随机符号
-            heart.style.left = (e.pageX - 10) + 'px';
-            heart.style.top = (e.pageY - 10) + 'px';
+            heart.innerText = ['❤️', '💖', '🌸', '✨', '😡'][Math.floor(Math.random() * 4)]; // 偶尔冒个生气的表情代表骂那个AI
+            heart.style.left = (e.pageX - 12) + 'px';
+            heart.style.top = (e.pageY - 12) + 'px';
             document.body.appendChild(heart);
-
-            setTimeout(() => heart.remove(), 1000);
+            setTimeout(() => heart.remove(), 1500);
         });
     </script>
 </body>
