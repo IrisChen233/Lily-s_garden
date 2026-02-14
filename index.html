@@ -153,11 +153,100 @@
         /* TTS 按钮增强 */
         .tts-play-btn { position: absolute; bottom: -40px; right: 0; background: #fff; border: 2px solid var(--accent); border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 1.2em; line-height: 32px; text-align: center; z-index: 10000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: transform 0.2s; }
         .tts-play-btn:active { transform: scale(0.9); }
-        @media (max-width: 600px) {
-            .npc-container { width: 160px; height: 220px; right: -20px; }
-            .dialogue-box { bottom: 230px; right: 10px; max-width: 180px; font-size: 0.85em; }
-            .chat-input-box { right: 10px; bottom: 220px; width: 200px; flex-direction: column; }
-            #chat-input { width: 100%; }
+        /* Whack-a-Mole Styles */
+        #whack-a-mole-game {
+            background: #8d6e63; /* Wooden brown */
+            border: 4px solid #5d4037;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 5px 15px rgba(0,0,0,0.2);
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+        }
+
+        .wam-scoreboard {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .wam-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-bottom: 5px;
+        }
+
+        .wam-score {
+            font-size: 1.2em;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .wam-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .hole {
+            background: #3e2723; /* Dark dirt hole */
+            border-radius: 50%;
+            padding-top: 100%; /* Aspect ratio 1:1 */
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .mole {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 3em; /* Adjust based on hole size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: top 0.4s;
+            pointer-events: none; /* Click handling is on parent/hole usually, but let's check JS */
+        }
+        
+        /* Correction: JS binds click to .mole, so pointer-events: auto */
+        .mole { pointer-events: auto; }
+
+        .hole.up .mole {
+            top: 0;
+        }
+
+        .wam-btn {
+            background: #d84315;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px #bf360c;
+            transition: all 0.1s;
+        }
+
+        .wam-btn:active {
+            box-shadow: 0 0 #bf360c;
+            transform: translateY(4px);
+        }
+        
+        .wam-btn:disabled {
+            background: #9e9e9e;
+            box-shadow: none;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -205,6 +294,9 @@
                     <button class="track-btn" onclick="changeVideo(this, 'BV1Ng4y1D78J')"><span class="track-icon">✨</span><div style="text-align:left;"><div style="font-weight:bold;">Enchanted</div><div style="font-size:0.7em; opacity:0.8;">Taylor's Version</div></div></button>
                     <button class="track-btn" onclick="changeVideo(this, 'BV1gr42137rc')"><span class="track-icon">🌧️</span><div style="text-align:left;"><div style="font-weight:bold;">TTPD White Noise</div><div style="font-size:0.7em; opacity:0.8;">4 Hours</div></div></button>
                 </div>
+                <div id="whack-a-mole-game" class="whack-a-mole-game">
+                    <!-- JS will populate this -->
+                </div>
             </div>
             <div class="footer">Made with ❤️ by Lily for Iris</div>
         </div>
@@ -221,6 +313,7 @@
 
     <script src="js/planting.js?v=fixed"></script>
     <script src="js/tictactoe.js"></script>
+    <script src="js/whackamole.js"></script>
     <!-- <script src="js/sakura.js?v=fixed"></script> 移除外部引用，改为内嵌 -->
 
     <script>
