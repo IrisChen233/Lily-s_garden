@@ -120,6 +120,9 @@
             filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
         }
         
+        .flower-item:nth-child(odd) .flower-emoji { animation-duration: 4s; }
+        .flower-item:nth-child(even) .flower-emoji { animation-duration: 5s; }
+
         .flower-tooltip {
             visibility: hidden;
             width: max-content;
@@ -187,7 +190,7 @@
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
+            gap: 15px;
         }
         .polaroid {
             background: #fff;
@@ -199,16 +202,50 @@
             position: relative;
         }
         .polaroid:hover {
-            transform: scale(1.5) rotate(0deg);
+            transform: scale(1.1) rotate(0deg);
             z-index: 100;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .polaroid img {
+        
+        /* 抽象画 - 纯 CSS 绘制，永不 404 */
+        .painting {
             width: 100%;
             height: 120px;
-            object-fit: cover;
-            filter: sepia(20%);
+            background-color: #eee;
         }
+        
+        .painting-starry {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .painting-starry::after {
+            content: "✨";
+            position: absolute;
+            top: 10px; left: 10px; font-size: 20px;
+            text-shadow: 30px 40px 0 yellow, 70px 10px 0 white;
+        }
+
+        .painting-pond {
+            background: radial-gradient(circle at 30% 30%, #a8e6cf 0%, #11998e 100%);
+            position: relative;
+        }
+        .painting-pond::before {
+            content: "🌸";
+            position: absolute;
+            bottom: 10px; right: 20px; font-size: 24px; opacity: 0.8;
+        }
+
+        .painting-forest {
+            background: linear-gradient(to bottom right, #56ab2f 0%, #a8e063 100%);
+            position: relative;
+        }
+        .painting-forest::after {
+            content: "🌲";
+            position: absolute;
+            bottom: 0; left: 50%; transform: translateX(-50%); font-size: 40px; opacity: 0.5;
+        }
+
         .polaroid-caption {
             font-family: 'Dancing Script', cursive;
             font-size: 1em;
@@ -251,8 +288,11 @@
             box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3);
         }
 
+        .track-info { display: flex; align-items: center; gap: 10px; }
         .track-icon { font-size: 1.2em; }
-        
+        .playing-indicator { font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
+        .track-btn.active .playing-indicator { opacity: 1; }
+
         .bilibili-container {
             position: relative;
             width: 100%;
@@ -334,19 +374,20 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
+        <!-- 抽象派画廊：用 CSS 绘制，永不 404！ -->
         <div class="gallery-section">
-            <div class="gallery-title">🖼️ Memory Gallery (Click to Zoom)</div>
+            <div class="gallery-title">🖼️ Memory Gallery (Abstract Art)</div>
             <div class="gallery-grid">
-                <div class="polaroid" style="--rotation: -5deg;" onclick="window.open('https://upload.wikimedia.org/wikipedia/commons/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/640px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" alt="Starry Night">
+                <div class="polaroid" style="--rotation: -5deg;">
+                    <div class="painting painting-starry"></div>
                     <div class="polaroid-caption">Dreamy Night</div>
                 </div>
-                <div class="polaroid" style="--rotation: 3deg;" onclick="window.open('https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg/640px-Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg/320px-Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg" alt="Water Lilies">
+                <div class="polaroid" style="--rotation: 3deg;">
+                    <div class="painting painting-pond"></div>
                     <div class="polaroid-caption">Peaceful Pond</div>
                 </div>
-                <div class="polaroid" style="--rotation: -2deg;" onclick="window.open('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg/640px-Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg/320px-Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg" alt="Forest Path">
+                <div class="polaroid" style="--rotation: -2deg;">
+                    <div class="painting painting-forest"></div>
                     <div class="polaroid-caption">Hopeful Light</div>
                 </div>
             </div>
@@ -380,19 +421,17 @@
                         <div style="font-weight:bold;">Enchanted (Taylor's Version)</div>
                     </div>
                 </button>
-                <!-- 找回了白噪音！ -->
                 <button class="track-btn" onclick="changeVideo(this, 'BV1gr42137rc')">
                     <span class="track-icon">🌧️</span> 
                     <div style="text-align:left;">
                         <div style="font-weight:bold;">TTPD White Noise (4 Hours)</div>
-                        <div style="font-size:0.8em; opacity:0.8;">专注·阅读·睡眠</div>
                     </div>
                 </button>
             </div>
         </div>
 
         <p style="margin: 30px 20px; font-style: italic;">
-            "Lily 永远记得你的喜好，一首也不会丢。 💖"
+            "即使世界断网，这里依然有花，有画，有音乐。 💖"
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
