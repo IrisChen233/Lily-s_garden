@@ -6,7 +6,6 @@
     <title>Iris's Secret Garden 🌸</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* ... (样式保持不变，太长了省略，但我会完整写入) ... */
         :root { --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); --text-color: #5d4037; --glass-bg: rgba(255, 255, 255, 0.6); --glass-border: rgba(255, 255, 255, 0.8); --accent: #d81b60; --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); }
         body.night-mode { --bg-gradient: linear-gradient(to top, #30cfd0 0%, #330867 100%); --text-color: #fff; --glass-bg: rgba(0, 0, 0, 0.3); --glass-border: rgba(255, 255, 255, 0.1); --accent: #ff9a9e; --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
         body { font-family: 'Nunito', sans-serif; background: var(--bg-gradient); color: var(--text-color); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; text-align: center; transition: all 0.8s ease; background-attachment: fixed; }
@@ -65,7 +64,7 @@
         @keyframes float-up { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-80px) scale(1.5); opacity: 0; } }
         .footer { margin-top: 40px; font-size: 0.8em; opacity: 0.7; padding-bottom: 20px; width: 100%; text-align: center; grid-column: span 2; }
         .npc-container { position: fixed; bottom: 0; right: 5%; width: 300px; height: 400px; z-index: 1000; pointer-events: none; }
-        .npc-image { width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); transition: transform 0.3s, filter 0.3s; cursor: pointer; pointer-events: auto; }
+        .npc-image { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); transition: transform 0.3s, filter 0.3s; cursor: pointer; pointer-events: auto; transform-origin: bottom center; }
         .npc-image:hover { transform: scale(1.05) translateY(-5px); filter: drop-shadow(0 0 15px rgba(255,182,193,0.8)); }
         .dialogue-box { position: absolute; bottom: 380px; right: 20px; background: rgba(255, 255, 255, 0.9); padding: 15px 20px; border-radius: 20px; border: 2px solid var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-family: 'Nunito', sans-serif; color: var(--text-color); max-width: 250px; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: auto; }
         .dialogue-box.show { opacity: 1; transform: translateY(0); }
@@ -130,7 +129,6 @@
     <!-- NPC Elian -->
     <div class="npc-container">
         <div class="dialogue-box" id="npc-dialogue">你好呀，Iris。我是 Elian。点击我可以和我聊天哦。</div>
-        <!-- V25.0: 加上了版本号，强制刷新图片！ -->
         <img id="npc-img" class="npc-image" src="assets/characters/elian/neutral.png?v=new" onclick="toggleChat()">
         
         <!-- 聊天框 -->
@@ -140,6 +138,7 @@
         </div>
     </div>
 
+    <script src="js/planting.js"></script>
     <script>
         fetch('diary.json?t=' + new Date().getTime())
             .then(r => r.json()).then(d => {
@@ -175,6 +174,7 @@
 
         function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
 
+        // V48.0 - 智能管家逻辑 (支持 Action)
         async function sendMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value;
@@ -186,20 +186,105 @@
             input.value = '';
 
             try {
-                const res = await fetch('/api/chat', {
+                const apiBase = window.location.origin;
+                console.log(`📡 Sending to: ${apiBase}/api/chat/stream (SSE)`);
+                
+                box.innerText = '...';
+                let streamedText = '';
+                let firstChunk = true;
+
+                const res = await fetch(`${apiBase}/api/chat/stream`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text })
                 });
-                
-                if (!res.ok) throw new Error("API Error");
-                
-                const data = await res.json();
-                // 加上版本号，防止缓存
-                document.getElementById('npc-img').src = `assets/characters/elian/${data.emotion}.png?v=new`;
-                box.innerText = data.reply;
+
+                if (!res.ok) throw new Error(`API Error: ${res.status}`);
+
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop(); // Keep incomplete line in buffer
+
+                    for (const line of lines) {
+                        if (!line.startsWith('data: ')) continue;
+                        const jsonStr = line.slice(6).trim();
+                        if (!jsonStr) continue;
+
+                        try {
+                            const event = JSON.parse(jsonStr);
+
+                            if (event.type === 'text') {
+                                // Streaming text - typewriter effect
+                                if (firstChunk) {
+                                    box.innerText = '';
+                                    firstChunk = false;
+                                }
+                                streamedText += event.content;
+                                box.innerText = streamedText;
+                            }
+                            else if (event.type === 'done') {
+                                // Stream complete - handle metadata
+                                console.log('✅ Stream done:', event);
+
+                                // Update with full reply if available
+                                if (event.fullReply) box.innerText = event.fullReply;
+
+                                // 1. Update emotion image
+                                if (event.emotion) {
+                                    document.getElementById('npc-img').src = `assets/characters/elian/${event.emotion}.png?v=new`;
+                                }
+
+                                // 2. Execute action
+                                if (event.action && event.action !== 'none') {
+                                    console.log("🎬 Action:", event.action);
+                                    if (event.action === 'set_night') { 
+                                        if (!document.body.classList.contains('night-mode')) toggleNightMode();
+                                    }
+                                    else if (event.action === 'set_day') { 
+                                        if (document.body.classList.contains('night-mode')) toggleNightMode();
+                                    }
+                                    else if (event.action.startsWith('play_')) {
+                                        const track = event.action.replace('play_', '');
+                                        const map = {
+                                            'jazz': 'BV1jA411L7fe',
+                                            'cardigan': 'BV1Np4y1V7cd',
+                                            'willow': 'BV1c4v1e1ERF',
+                                            'enchanted': 'BV1Ng4y1D78J',
+                                            'noise': 'BV1gr42137rc'
+                                        };
+                                        if (map[track]) {
+                                            document.getElementById('bili-player').src = `//player.bilibili.com/player.html?bvid=${map[track]}&page=1&high_quality=1&danmaku=0`;
+                                        }
+                                    }
+                                }
+
+                                // 3. Play TTS audio
+                                if (event.ttsUrl) {
+                                    const audio = new Audio();
+                                    audio.preload = 'auto';
+                                    audio.addEventListener('canplaythrough', () => {
+                                        audio.play().catch(e => console.log('Audio play failed:', e));
+                                    }, { once: true });
+                                    audio.src = event.ttsUrl;
+                                    audio.load();
+                                }
+                            }
+                        } catch (parseErr) {
+                            console.warn('SSE parse error:', parseErr);
+                        }
+                    }
+                }
+
             } catch (e) {
-                console.log("Chat API failed, fallback to local logic.");
+                console.log("Stream API failed, fallback to local logic.", e);
                 localChatLogic(text);
             }
         }
@@ -212,7 +297,6 @@
             const reply = responses[Math.floor(Math.random() * responses.length)];
             setTimeout(() => {
                 box.innerText = reply;
-                document.getElementById('npc-img').src = 'assets/characters/elian/happy.png?v=new';
             }, 1000);
         }
     </script>
