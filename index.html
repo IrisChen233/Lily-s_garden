@@ -141,9 +141,46 @@
     </div>
 
     <script src="js/planting.js?v=fixed"></script>
-    <script src="js/sakura.js?v=fixed"></script>
+    <!-- <script src="js/sakura.js?v=fixed"></script> 移除外部引用，改为内嵌 -->
 
     <script>
+        // 内嵌樱花特效 (确保加载！)
+        (function () {
+            const style = document.createElement('style');
+            style.textContent = `
+                .sakura-petal {
+                    position: fixed;
+                    top: -20px;
+                    width: 15px;
+                    height: 15px;
+                    background-color: #ffc0cb; /* 纯粉色 fallback */
+                    background: radial-gradient(circle, #ffb7c5 0%, #ffc0cb 100%);
+                    pointer-events: none;
+                    border-radius: 50% 0 50% 50%; /* 稍微像花瓣形状 */
+                    transform: rotate(45deg);
+                    animation: fall linear forwards, sway ease-in-out infinite;
+                    z-index: 100000; /* 超级高 */
+                    box-shadow: 0 0 5px rgba(255, 182, 193, 0.8); /* 发光效果，更容易看见 */
+                }
+                @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+                @keyframes sway { 0%, 100% { margin-left: 0; } 50% { margin-left: 25px; } }
+            `;
+            document.head.appendChild(style);
+
+            function createPetal() {
+                const petal = document.createElement('div');
+                petal.classList.add('sakura-petal');
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = (Math.random() * 5 + 5) + 's, ' + (Math.random() * 2 + 2) + 's';
+                petal.style.opacity = Math.random() * 0.5 + 0.5;
+                document.body.appendChild(petal);
+                setTimeout(() => petal.remove(), 10000); // 10秒后清理
+            }
+            
+            // 启动！
+            setInterval(createPetal, 300); // 每300毫秒生成一片
+        })();
+
         fetch('diary.json?t=' + new Date().getTime()).then(r => r.json()).then(d => {
             const c = document.getElementById('diary-container'); c.innerHTML = '';
             (Array.isArray(d) ? d : [d]).forEach(e => { c.innerHTML += `<div class="diary-card"><span class="diary-date">${e.date}</span><div class="diary-content">${e.content}</div></div>`; });
