@@ -14,7 +14,7 @@
       opacity: 0.8;
       transform: rotate(45deg);
       animation: fall linear, sway ease-in-out;
-      z-index: 1; /* 调低一点，不要挡住按钮 */
+      z-index: 99999; /* 最高层级 */
     }
 
     @keyframes fall {
