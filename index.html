@@ -148,14 +148,26 @@
             50% { transform: translateY(-10px); }
         }
 
+        /* 日记区域样式更新 */
+        .diary-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 30px 20px;
+            padding-right: 5px;
+        }
+        .diary-container::-webkit-scrollbar { width: 6px; }
+        .diary-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
+        .diary-container::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; opacity: 0.5; }
+
         .diary-card {
             background: rgba(255, 255, 255, 0.5);
             border-left: 5px solid var(--accent);
             border-radius: 10px;
             padding: 20px;
-            margin: 20px;
+            margin-bottom: 15px;
             text-align: left;
             transition: all 0.5s;
+            position: relative;
         }
         body.night-mode .diary-card { background: rgba(0, 0, 0, 0.4); }
 
@@ -173,6 +185,14 @@
             font-size: 1.1em;
             line-height: 1.6;
             font-style: italic;
+        }
+
+        .diary-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.2em;
+            opacity: 0.3;
         }
 
         /* 记忆画廊 */
@@ -361,9 +381,11 @@
             <div class="flower-item"><span class="flower-emoji">🌿</span><span class="flower-tooltip">放松深呼吸</span></div>
         </div>
         
-        <div class="diary-card">
-            <span class="diary-date" id="diary-date">Loading...</span>
-            <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
+        <!-- 这里是日记的容器，JS 会往里面塞很多卡片 -->
+        <div class="diary-container" id="diary-container">
+            <div class="diary-card">
+                <div class="diary-content">正在找回丢失的记忆... 📖</div>
+            </div>
         </div>
 
         <div class="gallery-section">
@@ -390,7 +412,6 @@
             </div>
             
             <div class="bilibili-container">
-                <!-- 默认播放：爵士合集 (最稳) -->
                 <iframe id="bili-player" class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1jA411L7fe&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
             </div>
 
@@ -407,7 +428,7 @@
                     <span class="track-icon">🌲</span> 
                     <div style="text-align:left;">
                         <div style="font-weight:bold;">cardigan (Lyric Video)</div>
-                        <div style="font-size:0.8em; opacity:0.8;">换了歌词版，这个应该能看！</div>
+                        <div style="font-size:0.8em; opacity:0.8;">"And when I felt like I was an old cardigan..."</div>
                     </div>
                 </button>
 
@@ -444,10 +465,27 @@
         fetch('diary.json?t=' + new Date().getTime())
             .then(response => response.json())
             .then(data => {
-                document.getElementById('diary-date').innerText = data.date;
-                document.getElementById('diary-content').innerText = data.content;
+                const container = document.getElementById('diary-container');
+                container.innerHTML = ''; // 清空加载中
+                
+                // 检查是不是数组
+                const entries = Array.isArray(data) ? data : [data];
+                
+                entries.forEach(entry => {
+                    const card = document.createElement('div');
+                    card.className = 'diary-card';
+                    card.innerHTML = `
+                        <span class="diary-badge">📝</span>
+                        <span class="diary-date">${entry.date}</span>
+                        <div class="diary-content">${entry.content}</div>
+                    `;
+                    container.appendChild(card);
+                });
             })
-            .catch(e => console.log('日记读取失败', e));
+            .catch(e => {
+                console.log('日记读取失败', e);
+                document.getElementById('diary-container').innerHTML = '<div class="diary-card"><div class="diary-content">Lily 睡着了，读不到日记... 😴</div></div>';
+            });
 
         function toggleNightMode() {
             document.body.classList.toggle('night-mode');
