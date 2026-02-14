@@ -30,13 +30,15 @@
             color: var(--text-color);
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
             min-height: 100vh;
-            /* 流式布局，取消居中，让内容自适应 */
+            text-align: center;
             transition: all 0.8s ease;
             background-attachment: fixed;
         }
 
-        /* 布局容器 */
         .container {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
@@ -52,34 +54,22 @@
             z-index: 10;
             transition: all 0.5s ease;
             overflow: hidden;
+            margin-bottom: 50px;
         }
 
-        /* 电脑端适配 */
+        /* 响应式 */
         @media (min-width: 900px) {
             .container { max-width: 1100px; }
-            .content-grid {
-                display: grid;
-                grid-template-columns: 1.5fr 1fr;
-                gap: 40px;
-                padding: 0 40px;
-                text-align: left;
-            }
+            .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 0 40px; text-align: left; }
             .header-area { text-align: center; margin-bottom: 40px; }
             .section-title { font-size: 1.4em; margin-bottom: 20px; border-bottom: 2px solid var(--accent); display: inline-block; }
         }
-
         @media (max-width: 899px) {
-            .content-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 30px;
-                padding: 0 20px;
-            }
+            .content-grid { display: flex; flex-direction: column; gap: 30px; padding: 0 20px; }
             .header-area { text-align: center; }
             .section-title { font-size: 1.2em; margin-bottom: 15px; border-bottom: 1px dashed var(--accent); display: inline-block; }
         }
 
-        /* 横幅 & 标题 */
         .banner-css {
             width: 100%;
             height: 180px;
@@ -98,6 +88,7 @@
             position: absolute;
             animation: float 6s ease-in-out infinite;
         }
+
         h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--accent);
@@ -106,7 +97,6 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* 开关 */
         .magic-switch {
             position: absolute;
             top: 20px;
@@ -119,48 +109,24 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
             z-index: 20;
         }
-        .magic-switch:hover { transform: scale(1.2) rotate(20deg); }
 
-        /* 花园图标 */
-        .garden {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
+        .garden { display: flex; justify-content: center; gap: 25px; margin-bottom: 30px; flex-wrap: wrap; }
         .flower-item { position: relative; cursor: pointer; transition: transform 0.3s; }
         .flower-item:hover { transform: scale(1.3) rotate(5deg); }
-        .flower-emoji { font-size: 3em; display: block; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
-        .flower-item:nth-child(odd) .flower-emoji { animation-duration: 4s; }
-        .flower-item:nth-child(even) .flower-emoji { animation-duration: 5s; }
+        .flower-emoji { font-size: 3em; display: block; animation: float 4s ease-in-out infinite; }
         .flower-tooltip { visibility: hidden; width: max-content; background-color: var(--accent); color: #fff; text-align: center; border-radius: 20px; padding: 8px 15px; position: absolute; z-index: 1; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; font-size: 0.9em; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .flower-item:hover .flower-tooltip { visibility: visible; opacity: 1; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* 日记 */
         .diary-container { max-height: 500px; overflow-y: auto; padding-right: 5px; }
-        .diary-container::-webkit-scrollbar { width: 6px; }
-        .diary-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
-        .diary-container::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; opacity: 0.5; }
-        .diary-card {
-            background: rgba(255, 255, 255, 0.5);
-            border-left: 5px solid var(--accent);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            text-align: left;
-            transition: all 0.5s;
-            position: relative;
-        }
+        .diary-card { background: rgba(255, 255, 255, 0.5); border-left: 5px solid var(--accent); border-radius: 10px; padding: 20px; margin-bottom: 15px; text-align: left; }
         body.night-mode .diary-card { background: rgba(0, 0, 0, 0.4); }
-        .diary-date { font-size: 0.8em; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; }
+        .diary-date { font-size: 0.8em; color: var(--accent); font-weight: 800; display: block; margin-bottom: 8px; }
         .diary-content { font-size: 1.05em; line-height: 1.6; font-style: italic; }
 
-        /* 画廊 */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; }
         .polaroid { background: #fff; padding: 8px 8px 25px 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transform: rotate(var(--rotation)); transition: transform 0.3s, z-index 0.3s; cursor: pointer; position: relative; }
-        .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 100; }
         .painting { width: 100%; height: 100px; background-color: #eee; }
         .painting-starry { background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%); position: relative; overflow: hidden; }
         .painting-starry::after { content: "✨"; position: absolute; top: 10px; left: 10px; font-size: 20px; text-shadow: 30px 40px 0 yellow, 70px 10px 0 white; }
@@ -170,44 +136,42 @@
         .painting-forest::after { content: "🌲"; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 40px; opacity: 0.5; }
         .polaroid-caption { font-family: 'Dancing Script', cursive; font-size: 0.9em; color: #555; position: absolute; bottom: 5px; width: 100%; left: 0; text-align: center; }
 
-        /* 播放器 */
         .playlist { display: flex; flex-direction: column; gap: 10px; }
         .track-btn { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: all 0.3s; color: var(--text-color); font-family: 'Nunito', sans-serif; font-weight: 600; text-align: left; }
         .track-btn:hover, .track-btn.active { background: var(--accent); color: white; transform: translateX(5px); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3); }
         .bilibili-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; margin-bottom: 20px; border: 2px solid var(--glass-border); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .bilibili-iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* 特效 */
-        .firefly { position: fixed; left: 50%; top: 50%; width: 0.4vw; height: 0.4vw; margin: -0.2vw 0 0 9.8vw; animation: ease 200s alternate infinite; pointer-events: none; z-index: 0; }
-        .firefly::before, .firefly::after { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; transform-origin: -10vw; }
-        .firefly::before { background: rgba(255,255,0,0.2); opacity: 0.4; animation: drift ease alternate infinite; }
-        .firefly::after { background: white; opacity: 0; box-shadow: 0 0 0vw 0vw yellow; animation: drift ease alternate infinite, flash ease infinite; }
-        @keyframes drift { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes flash { 0%, 30%, 100% { opacity: 0; box-shadow: 0 0 0vw 0vw yellow; } 5% { opacity: 1; box-shadow: 0 0 2vw 0.4vw yellow; } }
-        .click-heart { position: absolute; font-size: 24px; pointer-events: none; animation: float-up 1.5s ease-out forwards; z-index: 100; }
-        @keyframes float-up { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-80px) scale(1.5); opacity: 0; } }
         .footer { margin-top: 40px; font-size: 0.8em; opacity: 0.7; padding-bottom: 20px; width: 100%; text-align: center; grid-column: span 2; }
 
         /* NPC 样式 */
         .npc-container { position: fixed; bottom: 0; right: 5%; width: 300px; height: 400px; z-index: 1000; pointer-events: none; }
         .npc-image { width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); transition: transform 0.3s, filter 0.3s; cursor: pointer; pointer-events: auto; }
         .npc-image:hover { transform: scale(1.05) translateY(-5px); filter: drop-shadow(0 0 15px rgba(255,182,193,0.8)); }
+        
         .dialogue-box { position: absolute; bottom: 380px; right: 20px; background: rgba(255, 255, 255, 0.9); padding: 15px 20px; border-radius: 20px; border: 2px solid var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-family: 'Nunito', sans-serif; color: var(--text-color); max-width: 250px; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: auto; }
         .dialogue-box.show { opacity: 1; transform: translateY(0); }
         .dialogue-box::after { content: ''; position: absolute; bottom: -10px; right: 40px; border-width: 10px 10px 0; border-style: solid; border-color: var(--accent) transparent transparent transparent; }
+        
+        /* 聊天输入框 */
+        .chat-input-box { position: absolute; bottom: 10px; right: 280px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; gap: 5px; z-index: 2000; pointer-events: auto; opacity: 0; transform: translateY(10px); transition: all 0.3s; }
+        .chat-input-box.show { opacity: 1; transform: translateY(0); }
+        #chat-input { border: 1px solid #ddd; padding: 8px 12px; border-radius: 15px; outline: none; font-family: 'Nunito'; width: 180px; }
+        .chat-input-box button { background: var(--accent); color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer; font-family: 'Nunito'; font-weight: bold; }
+
         @media (max-width: 600px) {
-            .npc-container { width: 180px; height: 240px; right: -20px; }
-            .dialogue-box { bottom: 250px; right: 10px; max-width: 200px; font-size: 0.9em; }
+            .npc-container { width: 160px; height: 220px; right: -20px; }
+            .dialogue-box { bottom: 230px; right: 10px; max-width: 180px; font-size: 0.85em; }
+            .chat-input-box { right: 10px; bottom: 220px; width: 200px; flex-direction: column; }
+            #chat-input { width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <button class="magic-switch" onclick="toggleNightMode()" title="切换昼夜">🌙</button>
-    <div id="fireflies-container"></div>
 
     <div class="container">
-        <!-- 头部 -->
         <div class="banner-css"></div>
         <div class="header-area">
             <h1>Iris's Secret Garden</h1>
@@ -220,13 +184,9 @@
         </div>
 
         <div class="content-grid">
-            <!-- 左侧 -->
             <div class="left-col">
                 <div class="section-title" style="color: var(--accent); font-family: 'Dancing Script'; font-size: 1.5em; border-bottom: 1px dashed var(--accent); margin-bottom: 15px;">✨ Mood Diary</div>
-                <div class="diary-container" id="diary-container">
-                    <div class="diary-card"><div class="diary-content">正在找回丢失的记忆... 📖</div></div>
-                </div>
-
+                <div class="diary-container" id="diary-container"><div class="diary-card"><div class="diary-content">正在找回丢失的记忆... 📖</div></div></div>
                 <div class="section-title" style="color: var(--accent); font-family: 'Dancing Script'; font-size: 1.5em; border-bottom: 1px dashed var(--accent); margin-bottom: 15px; margin-top: 30px;">🖼️ Memory Gallery</div>
                 <div class="gallery-grid">
                     <div class="polaroid" style="--rotation: -3deg;"><div class="painting painting-starry"></div><div class="polaroid-caption">Dreamy</div></div>
@@ -235,7 +195,6 @@
                 </div>
             </div>
 
-            <!-- 右侧 -->
             <div class="right-col">
                 <div class="section-title" style="color: var(--accent); font-family: 'Dancing Script'; font-size: 1.5em; border-bottom: 1px dashed var(--accent); margin-bottom: 15px;">🎵 Music Box</div>
                 <div class="bilibili-container">
@@ -249,141 +208,104 @@
                     <button class="track-btn" onclick="changeVideo(this, 'BV1gr42137rc')"><span class="track-icon">🌧️</span><div style="text-align:left;"><div style="font-weight:bold;">TTPD White Noise</div><div style="font-size:0.7em; opacity:0.8;">4 Hours</div></div></button>
                 </div>
             </div>
-
             <div class="footer">Made with ❤️ by Lily for Iris</div>
         </div>
     </div>
 
     <!-- NPC Elian -->
     <div class="npc-container">
-        <div class="dialogue-box" id="npc-dialogue">你好呀，Iris。我是 Elian。</div>
-        <img id="npc-img" class="npc-image" src="assets/characters/elian/neutral.png" onclick="interactWithElian()">
+        <div class="dialogue-box" id="npc-dialogue">你好呀，Iris。我是 Elian。点击我可以和我聊天哦。</div>
+        <img id="npc-img" class="npc-image" src="assets/characters/elian/neutral.png" onclick="toggleChat()">
+        
+        <!-- 聊天框 -->
+        <div class="chat-input-box" id="chat-box">
+            <input type="text" id="chat-input" placeholder="和 Elian 说点什么..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">发送</button>
+        </div>
     </div>
 
     <script>
-        // 日记
         fetch('diary.json?t=' + new Date().getTime())
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('diary-container');
-                container.innerHTML = '';
-                const entries = Array.isArray(data) ? data : [data];
-                entries.forEach(entry => {
-                    const card = document.createElement('div');
-                    card.className = 'diary-card';
-                    card.innerHTML = `<span class="diary-date">${entry.date}</span><div class="diary-content">${entry.content}</div>`;
-                    container.appendChild(card);
+            .then(r => r.json()).then(d => {
+                const c = document.getElementById('diary-container'); c.innerHTML = '';
+                (Array.isArray(d) ? d : [d]).forEach(e => {
+                    c.innerHTML += `<div class="diary-card"><span class="diary-date">${e.date}</span><div class="diary-content">${e.content}</div></div>`;
                 });
-            })
-            .catch(e => {
-                console.log('日记读取失败', e);
-                document.getElementById('diary-container').innerHTML = '<div class="diary-card"><div class="diary-content">Lily 睡着了... 😴</div></div>';
-            });
+            }).catch(e => console.log('日记失败', e));
 
-        // 交互逻辑
         function toggleNightMode() {
             document.body.classList.toggle('night-mode');
             const btn = document.querySelector('.magic-switch');
-            if (document.body.classList.contains('night-mode')) {
-                btn.innerText = '☀️';
-                createFireflies();
-            } else {
-                btn.innerText = '🌙';
-                document.getElementById('fireflies-container').innerHTML = '';
-            }
-        }
-
-        function createFireflies() {
-            const container = document.getElementById('fireflies-container');
-            container.innerHTML = '';
-            for (let i = 0; i < 15; i++) {
-                let f = document.createElement('div');
-                f.className = 'firefly';
-                f.style.left = Math.random() * 100 + 'vw';
-                f.style.top = Math.random() * 100 + 'vh';
-                f.style.animationDuration = (Math.random() * 10 + 5) + 's';
-                container.appendChild(f);
-            }
+            btn.innerText = document.body.classList.contains('night-mode') ? '☀️' : '🌙';
         }
 
         function changeVideo(btn, bvid) {
-            const player = document.getElementById('bili-player');
-            player.src = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&danmaku=0`;
+            document.getElementById('bili-player').src = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&danmaku=0`;
             document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
 
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('button') || e.target.closest('iframe') || e.target.closest('.polaroid') || e.target.closest('.npc-image')) return;
-            const heart = document.createElement('div');
-            heart.className = 'click-heart';
-            heart.innerText = ['❤️', '💖', '🌸', '✨'][Math.floor(Math.random() * 4)];
-            heart.style.left = (e.pageX - 12) + 'px';
-            heart.style.top = (e.pageY - 12) + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 1500);
-        });
-
-        // NPC 逻辑
-        const elian = {
-            state: 'neutral',
-            dialogues: {
-                neutral: [
-                    "今天的风很温柔，就像你一样。",
-                    "你也喜欢这朵百合吗？它开得特别好。",
-                    "能找到这里的人，内心一定很柔软吧。",
-                    "我在这里等你很久了。",
-                    "只要有花陪着就好……不过，现在有你了。"
-                ],
-                happy: [
-                    "看到你来，花儿都开得更艳了！✨",
-                    "其实……我一直在等你上线。",
-                    "和你聊天的时间，过得好快啊。",
-                    "嘿嘿，被你发现了，我在偷偷看你。",
-                    "你的笑容比这些花还要好看。"
-                ],
-                shy: [
-                    "咳……你、你刚才是在夸我吗？😳",
-                    "别、别靠那么近……我会紧张的。",
-                    "这种话……只能对我说哦。",
-                    "其实……我也有点想你。",
-                    "我的脸红了吗？没有吧！是夕阳照的！"
-                ]
+        let isChatting = false;
+        function toggleChat() {
+            const box = document.getElementById('chat-box');
+            isChatting = !isChatting;
+            if (isChatting) {
+                box.classList.add('show');
+                document.getElementById('chat-input').focus();
+            } else {
+                box.classList.remove('show');
             }
-        };
-
-        function interactWithElian() {
-            const img = document.getElementById('npc-img');
-            const box = document.getElementById('npc-dialogue');
-            
-            // 随机切换状态
-            const rand = Math.random();
-            let newState = 'neutral';
-            if (rand > 0.5) newState = 'shy';
-            else if (rand > 0.2) newState = 'happy';
-            
-            // 切换图片
-            img.src = `assets/characters/elian/${newState}.png`;
-            
-            // 随机选台词
-            const lines = elian.dialogues[newState];
-            const text = lines[Math.floor(Math.random() * lines.length)];
-            
-            // 显示对话框
-            box.innerText = text;
-            box.classList.add('show');
-            
-            // 自动变回
-            setTimeout(() => { box.classList.remove('show'); }, 4000);
-            setTimeout(() => { img.src = `assets/characters/elian/neutral.png`; }, 5000);
         }
-        
-        // 初始打招呼
-        setTimeout(() => {
+
+        function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value;
+            if (!text) return;
+
             const box = document.getElementById('npc-dialogue');
+            box.innerText = `Iris: ${text}`;
             box.classList.add('show');
-            setTimeout(() => box.classList.remove('show'), 5000);
-        }, 2000);
+            input.value = '';
+
+            try {
+                // 尝试连接后端 API
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                
+                if (!res.ok) throw new Error("API Error");
+                
+                const data = await res.json();
+                document.getElementById('npc-img').src = `assets/characters/elian/${data.emotion}.png`;
+                box.innerText = data.reply;
+            } catch (e) {
+                // 如果后端没开，或者是 GitHub Pages 环境，就回退到本地逻辑
+                console.log("Chat API failed, fallback to local logic.");
+                localChatLogic(text);
+            }
+        }
+
+        // 备用：本地聊天逻辑 (如果服务器没开)
+        function localChatLogic(text) {
+            const box = document.getElementById('npc-dialogue');
+            const responses = [
+                "我在听着呢，Iris。",
+                "这句话真好听。",
+                "只要你在，我就很开心。",
+                "虽然我现在连不上大脑 (Server)，但我依然有心。",
+                "你想听个故事吗？"
+            ];
+            const reply = responses[Math.floor(Math.random() * responses.length)];
+            
+            setTimeout(() => {
+                box.innerText = reply;
+                document.getElementById('npc-img').src = 'assets/characters/elian/happy.png';
+            }, 1000);
+        }
     </script>
 </body>
 </html>
