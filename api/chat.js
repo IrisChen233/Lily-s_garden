@@ -38,16 +38,20 @@ export default async function handler(req, res) {
 
     const { message } = req.body;
 
-    // 模型列表 (优先使用 2.0 Flash，速度极快！)
-    const models = ["gemini-2.0-flash-exp", "gemini-1.5-flash", "gemini-3-pro-preview"];
+    // 模型列表 (改回 Gemini 3.0 Pro Preview！)
+    const models = ["gemini-3-pro-preview", "gemini-2.0-flash-exp"];
 
     for (const model of models) {
         try {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEN_AI_KEY}`;
             
             const response = await axios.post(url, {
-                contents: [{ role: "user", parts: [{ text: SYSTEM_PROMPT + "\n\nUser: " + message }] }],
-                generationConfig: { responseMimeType: "application/json" }
+                contents: [{ role: "user", parts: [{ text: SYSTEM_PROMPT + "\n\n(IMPORTANT: Respond directly. Do NOT output thinking process.)\n\nUser: " + message }] }],
+                generationConfig: { 
+                    responseMimeType: "application/json",
+                    temperature: 0.7,
+                    topK: 1 // 减少发散，提高速度
+                }
             });
 
             const rawText = response.data.candidates[0].content.parts[0].text;
