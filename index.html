@@ -32,7 +32,7 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* 改为从顶部对齐，适应长内容 */
+            align-items: flex-start;
             min-height: 100vh;
             text-align: center;
             transition: all 0.8s ease;
@@ -172,7 +172,6 @@
             font-style: italic;
         }
 
-        /* 记忆画廊 */
         .gallery-section {
             margin: 30px 20px;
         }
@@ -208,7 +207,7 @@
             width: 100%;
             height: 120px;
             object-fit: cover;
-            filter: sepia(20%); /* 复古滤镜 */
+            filter: sepia(20%);
         }
         .polaroid-caption {
             font-family: 'Dancing Script', cursive;
@@ -252,11 +251,8 @@
             box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3);
         }
 
-        .track-info { display: flex; align-items: center; gap: 10px; }
         .track-icon { font-size: 1.2em; }
-        .playing-indicator { font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
-        .track-btn.active .playing-indicator { opacity: 1; }
-
+        
         .bilibili-container {
             position: relative;
             width: 100%;
@@ -338,21 +334,17 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
-        <!-- 记忆画廊：使用 Wikimedia 链接 -->
         <div class="gallery-section">
             <div class="gallery-title">🖼️ Memory Gallery (Click to Zoom)</div>
             <div class="gallery-grid">
-                <!-- 梵高星空 -->
                 <div class="polaroid" style="--rotation: -5deg;" onclick="window.open('https://upload.wikimedia.org/wikipedia/commons/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg')">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/640px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" alt="Starry Night">
                     <div class="polaroid-caption">Dreamy Night</div>
                 </div>
-                <!-- 莫奈睡莲 -->
                 <div class="polaroid" style="--rotation: 3deg;" onclick="window.open('https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg/640px-Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg')">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg/320px-Water-Lilies_Claude_Monet_%281916-1919%29-_Fondation_Beyeler_Basel_%28W1854%29.jpg" alt="Water Lilies">
                     <div class="polaroid-caption">Peaceful Pond</div>
                 </div>
-                <!-- 森林阳光 -->
                 <div class="polaroid" style="--rotation: -2deg;" onclick="window.open('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg/640px-Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg')">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg/320px-Sunlight_on_the_path_through_the_forest_-_geograph.org.uk_-_7451272.jpg" alt="Forest Path">
                     <div class="polaroid-caption">Hopeful Light</div>
@@ -360,7 +352,6 @@
             </div>
         </div>
 
-        <!-- Bilibili 播放器 -->
         <div style="margin: 20px;">
             <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8;">
                 🎵 Lily's Playlist: <span style="color: #ff9a9e; font-weight: bold;">Taylor Swift 治愈精选</span>
@@ -389,11 +380,19 @@
                         <div style="font-weight:bold;">Enchanted (Taylor's Version)</div>
                     </div>
                 </button>
+                <!-- 找回了白噪音！ -->
+                <button class="track-btn" onclick="changeVideo(this, 'BV1gr42137rc')">
+                    <span class="track-icon">🌧️</span> 
+                    <div style="text-align:left;">
+                        <div style="font-weight:bold;">TTPD White Noise (4 Hours)</div>
+                        <div style="font-size:0.8em; opacity:0.8;">专注·阅读·睡眠</div>
+                    </div>
+                </button>
             </div>
         </div>
 
         <p style="margin: 30px 20px; font-style: italic;">
-            "我们的花园，每一天都在变大、变美。 💖"
+            "Lily 永远记得你的喜好，一首也不会丢。 💖"
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
