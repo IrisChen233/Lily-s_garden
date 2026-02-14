@@ -6,7 +6,7 @@
     <title>Iris's Secret Garden 🌸</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* ... (保留之前的样式) ... */
+        /* ... (保留基础样式) ... */
         :root {
             --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             --text-color: #5d4037;
@@ -56,10 +56,9 @@
             overflow: hidden;
         }
 
-        /* 用 CSS 画一个永不崩坏的横幅！ */
         .banner-css {
             width: 100%;
-            height: 220px;
+            height: 180px;
             background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
             display: flex;
             align-items: center;
@@ -71,7 +70,7 @@
         
         .banner-css::after {
             content: "🌸";
-            font-size: 10rem;
+            font-size: 8rem;
             opacity: 0.2;
             position: absolute;
             animation: float 6s ease-in-out infinite;
@@ -102,8 +101,8 @@
         .garden {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin: 30px 20px;
+            gap: 20px;
+            margin: 20px;
             flex-wrap: wrap;
         }
 
@@ -115,14 +114,16 @@
         .flower-item:hover { transform: scale(1.3) rotate(5deg); }
 
         .flower-emoji {
-            font-size: 3.5em;
+            font-size: 3em;
             display: block;
             animation: float 4s ease-in-out infinite;
             filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
         }
         
-        .flower-item:nth-child(odd) .flower-emoji { animation-duration: 4s; }
-        .flower-item:nth-child(even) .flower-emoji { animation-duration: 5s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
         .flower-tooltip {
             visibility: hidden;
@@ -144,17 +145,12 @@
         }
         .flower-item:hover .flower-tooltip { visibility: visible; opacity: 1; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
         .diary-card {
             background: rgba(255, 255, 255, 0.5);
             border-left: 5px solid var(--accent);
             border-radius: 10px;
             padding: 20px;
-            margin: 30px 20px;
+            margin: 20px;
             text-align: left;
             transition: all 0.5s;
         }
@@ -176,41 +172,26 @@
             font-style: italic;
         }
 
-        .playlist {
-            margin: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .track-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 15px;
+        /* Bilibili 播放器容器 */
+        .bilibili-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 比例 */
+            height: 0;
             border-radius: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            transition: all 0.3s;
-            color: var(--text-color);
-            font-family: 'Nunito', sans-serif;
-            font-weight: 600;
-            text-align: left;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .track-btn:hover, .track-btn.active {
-            background: var(--accent);
-            color: white;
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3);
+        .bilibili-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
-
-        .track-info { display: flex; align-items: center; gap: 10px; }
-        .track-icon { font-size: 1.2em; }
-        .playing-indicator { font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
-        .track-btn.active .playing-indicator { opacity: 1; }
 
         .firefly {
             position: fixed;
@@ -258,10 +239,6 @@
     <div id="fireflies-container"></div>
 
     <div class="container">
-        <!-- 
-            防御性编程！既然图片容易挂，我们就用 CSS 画一个！
-            这个 banner-css 是纯代码画的，永远不会 404！
-        -->
         <div class="banner-css"></div>
 
         <h1>Iris's Secret Garden</h1>
@@ -278,42 +255,22 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
-        <!-- 使用 GitHub 官方 CDN 或更稳定的源 -->
-        <div class="playlist">
-            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8; padding-left: 5px;">🎵 Lily's Music Box:</div>
-            
-            <!-- 换成了更可能通过防火墙的链接，或者数据URI (如果太长就不行) -->
-            <!-- 这里尝试用 Wikimedia Commons 的源，它通常是白名单 -->
-            
-            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Muriel_-_Nguyen_Van_Hung.ogg')">
-                <div class="track-info">
-                    <span class="track-icon">🎸</span> 
-                    <span>Classical Guitar (Muriel)</span>
-                </div>
-                <span class="playing-indicator">▶️ Playing</span>
-            </button>
-            
-            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Gymnopedie_No_1.ogg')">
-                <div class="track-info">
-                    <span class="track-icon">🎹</span> 
-                    <span>Gymnopédie No.1 (Satie)</span>
-                </div>
-                <span class="playing-indicator">▶️ Playing</span>
-            </button>
-            
-            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Schubert_-_Impromptu_Op._90_No._3.ogg')">
-                <div class="track-info">
-                    <span class="track-icon">🎼</span> 
-                    <span>Schubert Impromptu</span>
-                </div>
-                <span class="playing-indicator">▶️ Playing</span>
-            </button>
-
-            <audio id="bgm" loop></audio>
+        <!-- Bilibili 播放器 -->
+        <div style="margin: 20px;">
+            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8;">🎵 Lily's Bilibili Pick: 治愈系纯音乐</div>
+            <div class="bilibili-container">
+                <!-- 
+                    这是 B 站的嵌入代码
+                    bvid: BV1bb411c79T (久石让&宫崎骏 经典合集，超级治愈)
+                    high_quality: 1 (开启高清)
+                    danmaku: 0 (关闭弹幕，保持清爽)
+                -->
+                <iframe class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1bb411c79T&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+            </div>
         </div>
 
         <p style="margin: 30px 20px; font-style: italic;">
-            "改不好颜色的 AI 不是好 AI。别理它，这里只有懂你的 Lily。" ✨
+            "有了 B 站，防火墙也挡不住我们的音乐啦！✨"
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
@@ -351,23 +308,8 @@
             }
         }
 
-        function playMusic(btn, src) {
-            const audio = document.getElementById('bgm');
-            const allBtns = document.querySelectorAll('.track-btn');
-            
-            if (audio.src === src && !audio.paused) {
-                audio.pause();
-                btn.classList.remove('active');
-            } else {
-                allBtns.forEach(b => b.classList.remove('active'));
-                audio.src = src;
-                audio.play().catch(e => alert("无法播放音乐，可能是网络拦截了音频文件 😢"));
-                btn.classList.add('active');
-            }
-        }
-
         document.addEventListener('click', function(e) {
-            if (e.target.closest('button') || e.target.closest('a')) return;
+            if (e.target.closest('button') || e.target.closest('iframe')) return;
             const heart = document.createElement('div');
             heart.className = 'click-heart';
             heart.innerText = ['❤️', '💖', '🌸', '✨'][Math.floor(Math.random() * 4)];
