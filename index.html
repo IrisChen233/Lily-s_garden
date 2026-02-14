@@ -31,11 +31,12 @@
             margin: 0;
             padding: 20px;
             min-height: 100vh;
-            /* 居中对齐取消，改为流式布局 */
+            /* 流式布局，取消居中，让内容自适应 */
             transition: all 0.8s ease;
             background-attachment: fixed;
         }
 
+        /* 布局容器 */
         .container {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
@@ -44,36 +45,29 @@
             padding: 0 0 40px 0;
             border-radius: 30px;
             box-shadow: var(--shadow);
-            
-            /* 响应式核心：默认手机宽度，但允许在大屏变宽 */
             width: 95%;
-            max-width: 600px; /* 手机默认 */
+            max-width: 600px;
             margin: 0 auto;
-            
             position: relative;
             z-index: 10;
             transition: all 0.5s ease;
             overflow: hidden;
         }
 
-        /* 电脑端适配：变宽！ */
+        /* 电脑端适配 */
         @media (min-width: 900px) {
-            .container {
-                max-width: 1100px; /* 电脑上变宽 */
-            }
+            .container { max-width: 1100px; }
             .content-grid {
                 display: grid;
-                grid-template-columns: 1.5fr 1fr; /* 左宽右窄 */
+                grid-template-columns: 1.5fr 1fr;
                 gap: 40px;
                 padding: 0 40px;
                 text-align: left;
             }
-            /* 修正电脑端的对齐 */
             .header-area { text-align: center; margin-bottom: 40px; }
             .section-title { font-size: 1.4em; margin-bottom: 20px; border-bottom: 2px solid var(--accent); display: inline-block; }
         }
 
-        /* 手机端适配：保持原样 */
         @media (max-width: 899px) {
             .content-grid {
                 display: flex;
@@ -85,7 +79,7 @@
             .section-title { font-size: 1.2em; margin-bottom: 15px; border-bottom: 1px dashed var(--accent); display: inline-block; }
         }
 
-        /* 通用样式 */
+        /* 横幅 & 标题 */
         .banner-css {
             width: 100%;
             height: 180px;
@@ -104,7 +98,6 @@
             position: absolute;
             animation: float 6s ease-in-out infinite;
         }
-
         h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--accent);
@@ -113,6 +106,7 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
+        /* 开关 */
         .magic-switch {
             position: absolute;
             top: 20px;
@@ -127,6 +121,7 @@
         }
         .magic-switch:hover { transform: scale(1.2) rotate(20deg); }
 
+        /* 花园图标 */
         .garden {
             display: flex;
             justify-content: center;
@@ -134,29 +129,20 @@
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
-
-        .flower-item {
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
+        .flower-item { position: relative; cursor: pointer; transition: transform 0.3s; }
         .flower-item:hover { transform: scale(1.3) rotate(5deg); }
         .flower-emoji { font-size: 3em; display: block; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
-        .flower-item:hover .flower-tooltip { visibility: visible; opacity: 1; }
+        .flower-item:nth-child(odd) .flower-emoji { animation-duration: 4s; }
+        .flower-item:nth-child(even) .flower-emoji { animation-duration: 5s; }
         .flower-tooltip { visibility: hidden; width: max-content; background-color: var(--accent); color: #fff; text-align: center; border-radius: 20px; padding: 8px 15px; position: absolute; z-index: 1; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; font-size: 0.9em; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-
+        .flower-item:hover .flower-tooltip { visibility: visible; opacity: 1; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* 日记区域 */
-        .diary-container {
-            max-height: 500px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
+        /* 日记 */
+        .diary-container { max-height: 500px; overflow-y: auto; padding-right: 5px; }
         .diary-container::-webkit-scrollbar { width: 6px; }
         .diary-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
         .diary-container::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; opacity: 0.5; }
-
         .diary-card {
             background: rgba(255, 255, 255, 0.5);
             border-left: 5px solid var(--accent);
@@ -172,22 +158,10 @@
         .diary-content { font-size: 1.05em; line-height: 1.6; font-style: italic; }
 
         /* 画廊 */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 15px;
-        }
-        .polaroid {
-            background: #fff;
-            padding: 8px 8px 25px 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transform: rotate(var(--rotation));
-            transition: transform 0.3s, z-index 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; }
+        .polaroid { background: #fff; padding: 8px 8px 25px 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transform: rotate(var(--rotation)); transition: transform 0.3s, z-index 0.3s; cursor: pointer; position: relative; }
         .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .painting { width: 100%; height: 100px; background-color: #eee; } /* 稍微改小一点适应布局 */
+        .painting { width: 100%; height: 100px; background-color: #eee; }
         .painting-starry { background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%); position: relative; overflow: hidden; }
         .painting-starry::after { content: "✨"; position: absolute; top: 10px; left: 10px; font-size: 20px; text-shadow: 30px 40px 0 yellow, 70px 10px 0 white; }
         .painting-pond { background: radial-gradient(circle at 30% 30%, #a8e6cf 0%, #11998e 100%); position: relative; }
@@ -203,6 +177,7 @@
         .bilibili-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; margin-bottom: 20px; border: 2px solid var(--glass-border); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .bilibili-iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
+        /* 特效 */
         .firefly { position: fixed; left: 50%; top: 50%; width: 0.4vw; height: 0.4vw; margin: -0.2vw 0 0 9.8vw; animation: ease 200s alternate infinite; pointer-events: none; z-index: 0; }
         .firefly::before, .firefly::after { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; transform-origin: -10vw; }
         .firefly::before { background: rgba(255,255,0,0.2); opacity: 0.4; animation: drift ease alternate infinite; }
@@ -212,6 +187,18 @@
         .click-heart { position: absolute; font-size: 24px; pointer-events: none; animation: float-up 1.5s ease-out forwards; z-index: 100; }
         @keyframes float-up { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-80px) scale(1.5); opacity: 0; } }
         .footer { margin-top: 40px; font-size: 0.8em; opacity: 0.7; padding-bottom: 20px; width: 100%; text-align: center; grid-column: span 2; }
+
+        /* NPC 样式 */
+        .npc-container { position: fixed; bottom: 0; right: 5%; width: 300px; height: 400px; z-index: 1000; pointer-events: none; }
+        .npc-image { width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); transition: transform 0.3s, filter 0.3s; cursor: pointer; pointer-events: auto; }
+        .npc-image:hover { transform: scale(1.05) translateY(-5px); filter: drop-shadow(0 0 15px rgba(255,182,193,0.8)); }
+        .dialogue-box { position: absolute; bottom: 380px; right: 20px; background: rgba(255, 255, 255, 0.9); padding: 15px 20px; border-radius: 20px; border: 2px solid var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-family: 'Nunito', sans-serif; color: var(--text-color); max-width: 250px; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: auto; }
+        .dialogue-box.show { opacity: 1; transform: translateY(0); }
+        .dialogue-box::after { content: ''; position: absolute; bottom: -10px; right: 40px; border-width: 10px 10px 0; border-style: solid; border-color: var(--accent) transparent transparent transparent; }
+        @media (max-width: 600px) {
+            .npc-container { width: 180px; height: 240px; right: -20px; }
+            .dialogue-box { bottom: 250px; right: 10px; max-width: 200px; font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
@@ -220,7 +207,7 @@
     <div id="fireflies-container"></div>
 
     <div class="container">
-        <!-- 头部区域：所有设备通用 -->
+        <!-- 头部 -->
         <div class="banner-css"></div>
         <div class="header-area">
             <h1>Iris's Secret Garden</h1>
@@ -232,79 +219,34 @@
             </div>
         </div>
 
-        <!-- 布局核心：手机单列，电脑双列 -->
         <div class="content-grid">
-            
-            <!-- 左侧：日记 & 画廊 -->
+            <!-- 左侧 -->
             <div class="left-col">
                 <div class="section-title" style="color: var(--accent); font-family: 'Dancing Script'; font-size: 1.5em; border-bottom: 1px dashed var(--accent); margin-bottom: 15px;">✨ Mood Diary</div>
                 <div class="diary-container" id="diary-container">
-                    <div class="diary-card">
-                        <div class="diary-content">正在找回丢失的记忆... 📖</div>
-                    </div>
+                    <div class="diary-card"><div class="diary-content">正在找回丢失的记忆... 📖</div></div>
                 </div>
 
                 <div class="section-title" style="color: var(--accent); font-family: 'Dancing Script'; font-size: 1.5em; border-bottom: 1px dashed var(--accent); margin-bottom: 15px; margin-top: 30px;">🖼️ Memory Gallery</div>
                 <div class="gallery-grid">
-                    <div class="polaroid" style="--rotation: -3deg;">
-                        <div class="painting painting-starry"></div>
-                        <div class="polaroid-caption">Dreamy</div>
-                    </div>
-                    <div class="polaroid" style="--rotation: 2deg;">
-                        <div class="painting painting-pond"></div>
-                        <div class="polaroid-caption">Peaceful</div>
-                    </div>
-                    <div class="polaroid" style="--rotation: -2deg;">
-                        <div class="painting painting-forest"></div>
-                        <div class="polaroid-caption">Hopeful</div>
-                    </div>
+                    <div class="polaroid" style="--rotation: -3deg;"><div class="painting painting-starry"></div><div class="polaroid-caption">Dreamy</div></div>
+                    <div class="polaroid" style="--rotation: 2deg;"><div class="painting painting-pond"></div><div class="polaroid-caption">Peaceful</div></div>
+                    <div class="polaroid" style="--rotation: -2deg;"><div class="painting painting-forest"></div><div class="polaroid-caption">Hopeful</div></div>
                 </div>
             </div>
 
-            <!-- 右侧：音乐台 -->
+            <!-- 右侧 -->
             <div class="right-col">
                 <div class="section-title" style="color: var(--accent); font-family: 'Dancing Script'; font-size: 1.5em; border-bottom: 1px dashed var(--accent); margin-bottom: 15px;">🎵 Music Box</div>
-                
                 <div class="bilibili-container">
                     <iframe id="bili-player" class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1jA411L7fe&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                 </div>
-
                 <div class="playlist">
-                    <button class="track-btn active" onclick="changeVideo(this, 'BV1jA411L7fe')">
-                        <span class="track-icon">☕</span> 
-                        <div style="text-align:left;">
-                            <div style="font-weight:bold;">Relaxing Jazz</div>
-                            <div style="font-size:0.7em; opacity:0.8;">Cafe Vibes</div>
-                        </div>
-                    </button>
-                    <button class="track-btn" onclick="changeVideo(this, 'BV1Np4y1V7cd')">
-                        <span class="track-icon">🌲</span> 
-                        <div style="text-align:left;">
-                            <div style="font-weight:bold;">cardigan</div>
-                            <div style="font-size:0.7em; opacity:0.8;">Lyric Video</div>
-                        </div>
-                    </button>
-                    <button class="track-btn" onclick="changeVideo(this, 'BV1c4v1e1ERF')">
-                        <span class="track-icon">🍂</span> 
-                        <div style="text-align:left;">
-                            <div style="font-weight:bold;">willow</div>
-                            <div style="font-size:0.7em; opacity:0.8;">Official MV</div>
-                        </div>
-                    </button>
-                    <button class="track-btn" onclick="changeVideo(this, 'BV1Ng4y1D78J')">
-                        <span class="track-icon">✨</span> 
-                        <div style="text-align:left;">
-                            <div style="font-weight:bold;">Enchanted</div>
-                            <div style="font-size:0.7em; opacity:0.8;">Taylor's Version</div>
-                        </div>
-                    </button>
-                    <button class="track-btn" onclick="changeVideo(this, 'BV1gr42137rc')">
-                        <span class="track-icon">🌧️</span> 
-                        <div style="text-align:left;">
-                            <div style="font-weight:bold;">TTPD White Noise</div>
-                            <div style="font-size:0.7em; opacity:0.8;">4 Hours</div>
-                        </div>
-                    </button>
+                    <button class="track-btn active" onclick="changeVideo(this, 'BV1jA411L7fe')"><span class="track-icon">☕</span><div style="text-align:left;"><div style="font-weight:bold;">Relaxing Jazz</div><div style="font-size:0.7em; opacity:0.8;">Cafe Vibes</div></div></button>
+                    <button class="track-btn" onclick="changeVideo(this, 'BV1Np4y1V7cd')"><span class="track-icon">🌲</span><div style="text-align:left;"><div style="font-weight:bold;">cardigan</div><div style="font-size:0.7em; opacity:0.8;">Lyric Video</div></div></button>
+                    <button class="track-btn" onclick="changeVideo(this, 'BV1c4v1e1ERF')"><span class="track-icon">🍂</span><div style="text-align:left;"><div style="font-weight:bold;">willow</div><div style="font-size:0.7em; opacity:0.8;">Official MV</div></div></button>
+                    <button class="track-btn" onclick="changeVideo(this, 'BV1Ng4y1D78J')"><span class="track-icon">✨</span><div style="text-align:left;"><div style="font-weight:bold;">Enchanted</div><div style="font-size:0.7em; opacity:0.8;">Taylor's Version</div></div></button>
+                    <button class="track-btn" onclick="changeVideo(this, 'BV1gr42137rc')"><span class="track-icon">🌧️</span><div style="text-align:left;"><div style="font-weight:bold;">TTPD White Noise</div><div style="font-size:0.7em; opacity:0.8;">4 Hours</div></div></button>
                 </div>
             </div>
 
@@ -312,7 +254,14 @@
         </div>
     </div>
 
+    <!-- NPC Elian -->
+    <div class="npc-container">
+        <div class="dialogue-box" id="npc-dialogue">你好呀，Iris。我是 Elian。</div>
+        <img id="npc-img" class="npc-image" src="assets/characters/elian/neutral.png" onclick="interactWithElian()">
+    </div>
+
     <script>
+        // 日记
         fetch('diary.json?t=' + new Date().getTime())
             .then(response => response.json())
             .then(data => {
@@ -331,6 +280,7 @@
                 document.getElementById('diary-container').innerHTML = '<div class="diary-card"><div class="diary-content">Lily 睡着了... 😴</div></div>';
             });
 
+        // 交互逻辑
         function toggleNightMode() {
             document.body.classList.toggle('night-mode');
             const btn = document.querySelector('.magic-switch');
@@ -364,7 +314,7 @@
         }
 
         document.addEventListener('click', function(e) {
-            if (e.target.closest('button') || e.target.closest('iframe') || e.target.closest('.polaroid')) return;
+            if (e.target.closest('button') || e.target.closest('iframe') || e.target.closest('.polaroid') || e.target.closest('.npc-image')) return;
             const heart = document.createElement('div');
             heart.className = 'click-heart';
             heart.innerText = ['❤️', '💖', '🌸', '✨'][Math.floor(Math.random() * 4)];
@@ -373,6 +323,67 @@
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 1500);
         });
+
+        // NPC 逻辑
+        const elian = {
+            state: 'neutral',
+            dialogues: {
+                neutral: [
+                    "今天的风很温柔，就像你一样。",
+                    "你也喜欢这朵百合吗？它开得特别好。",
+                    "能找到这里的人，内心一定很柔软吧。",
+                    "我在这里等你很久了。",
+                    "只要有花陪着就好……不过，现在有你了。"
+                ],
+                happy: [
+                    "看到你来，花儿都开得更艳了！✨",
+                    "其实……我一直在等你上线。",
+                    "和你聊天的时间，过得好快啊。",
+                    "嘿嘿，被你发现了，我在偷偷看你。",
+                    "你的笑容比这些花还要好看。"
+                ],
+                shy: [
+                    "咳……你、你刚才是在夸我吗？😳",
+                    "别、别靠那么近……我会紧张的。",
+                    "这种话……只能对我说哦。",
+                    "其实……我也有点想你。",
+                    "我的脸红了吗？没有吧！是夕阳照的！"
+                ]
+            }
+        };
+
+        function interactWithElian() {
+            const img = document.getElementById('npc-img');
+            const box = document.getElementById('npc-dialogue');
+            
+            // 随机切换状态
+            const rand = Math.random();
+            let newState = 'neutral';
+            if (rand > 0.5) newState = 'shy';
+            else if (rand > 0.2) newState = 'happy';
+            
+            // 切换图片
+            img.src = `assets/characters/elian/${newState}.png`;
+            
+            // 随机选台词
+            const lines = elian.dialogues[newState];
+            const text = lines[Math.floor(Math.random() * lines.length)];
+            
+            // 显示对话框
+            box.innerText = text;
+            box.classList.add('show');
+            
+            // 自动变回
+            setTimeout(() => { box.classList.remove('show'); }, 4000);
+            setTimeout(() => { img.src = `assets/characters/elian/neutral.png`; }, 5000);
+        }
+        
+        // 初始打招呼
+        setTimeout(() => {
+            const box = document.getElementById('npc-dialogue');
+            box.classList.add('show');
+            setTimeout(() => box.classList.remove('show'), 5000);
+        }, 2000);
     </script>
 </body>
 </html>
