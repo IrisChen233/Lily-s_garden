@@ -90,10 +90,66 @@
             50% { box-shadow: 0 0 10px #ffc107, 0 0 2px #ffc107; opacity: 0.8; }
         }
 
-        /* 夜间模式调整 */
+        /* Night Mode - Cottage */
         body.night-mode .cottage-roof { border-bottom-color: #4e342e; }
         body.night-mode .cottage-body { background: linear-gradient(to bottom, #5d4037, #3e2723); }
         body.night-mode .cottage-window { background: #ffc107; box-shadow: 0 0 20px #ffeb3b; }
+
+        /* Cat Luna */
+        .cat-luna {
+            position: absolute;
+            bottom: -15px;
+            right: 15%; /* Position relative to garden */
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 5;
+            transition: transform 0.3s;
+            animation: cat-breathe 3s infinite ease-in-out;
+            user-select: none;
+        }
+        .cat-luna:hover {
+            transform: scale(1.2) translateY(-5px);
+        }
+        .cat-luna:active {
+            transform: scale(0.9);
+        }
+        @keyframes cat-breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .meow-bubble {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1px solid var(--accent);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.5em;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .meow-bubble.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+        /* Tiny triangle for bubble */
+        .meow-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--accent) transparent transparent transparent;
+        }
 
         .flower-item { position: relative; cursor: pointer; transition: transform 0.3s; }
         .flower-item:hover { transform: scale(1.3) rotate(5deg); }
@@ -267,6 +323,12 @@
                         <div class="cottage-window"></div>
                     </div>
                 </div>
+                
+                <!-- Luna the Cat -->
+                <div class="cat-luna" onclick="meow()">
+                    🐱
+                    <span class="meow-bubble" id="meow-bubble">喵~</span>
+                </div>
             </div>
         </div>
 
@@ -297,6 +359,10 @@
                 <div id="whack-a-mole-game" class="whack-a-mole-game">
                     <!-- JS will populate this -->
                 </div>
+                <div class="section-title" style="color: var(--accent); font-family: 'Dancing Script'; font-size: 1.5em; border-bottom: 1px dashed var(--accent); margin-bottom: 15px; margin-top: 30px;">🐍 Vine Snake</div>
+                <div id="vine-snake-game" style="text-align: center; background: rgba(34, 139, 34, 0.1); border: 2px solid #4CAF50; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; min-height: 350px;">
+                    <!-- JS will populate this -->
+                </div>
             </div>
             <div class="footer">Made with ❤️ by Lily for Iris</div>
         </div>
@@ -314,6 +380,7 @@
     <script src="js/planting.js?v=fixed"></script>
     <script src="js/tictactoe.js"></script>
     <script src="js/whackamole.js"></script>
+    <script src="js/snake.js"></script>
     <!-- <script src="js/sakura.js?v=fixed"></script> 移除外部引用，改为内嵌 -->
 
     <script>
@@ -353,6 +420,14 @@
             // 启动！
             setInterval(createPetal, 300); // 每300毫秒生成一片
         })();
+
+        function meow() {
+            const bubble = document.getElementById('meow-bubble');
+            bubble.classList.add('show');
+            setTimeout(() => {
+                bubble.classList.remove('show');
+            }, 2000);
+        }
 
         fetch('diary.json?t=' + new Date().getTime()).then(r => r.json()).then(d => {
             const c = document.getElementById('diary-container'); c.innerHTML = '';
