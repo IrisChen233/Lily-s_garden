@@ -42,11 +42,10 @@ export default async function handler(req, res) {
 
     const { message } = req.body;
 
-    // 模型列表 (姐姐修正：gemini-3-flash)
+    // 模型列表 (实测验证：gemini-3-flash-preview 是通的！)
     const models = [
-        "gemini-3-flash",          // 姐姐指定的名称
-        "gemini-3-flash-preview",  // 备用：加上 preview 后缀
-        "gemini-3-pro-preview"     // 最后的 Pro 保底
+        "gemini-3-flash-preview",  // ✅ Verified Alive
+        "gemini-3-pro-preview"     // Backup
     ];
 
     for (const model of models) {
