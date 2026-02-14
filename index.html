@@ -175,6 +175,7 @@
             font-style: italic;
         }
 
+        /* 记忆画廊 */
         .gallery-section {
             margin: 30px 20px;
         }
@@ -206,14 +207,11 @@
             z-index: 100;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        
-        /* 抽象画 - 纯 CSS 绘制，永不 404 */
         .painting {
             width: 100%;
             height: 120px;
             background-color: #eee;
         }
-        
         .painting-starry {
             background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
             position: relative;
@@ -225,7 +223,6 @@
             top: 10px; left: 10px; font-size: 20px;
             text-shadow: 30px 40px 0 yellow, 70px 10px 0 white;
         }
-
         .painting-pond {
             background: radial-gradient(circle at 30% 30%, #a8e6cf 0%, #11998e 100%);
             position: relative;
@@ -235,7 +232,6 @@
             position: absolute;
             bottom: 10px; right: 20px; font-size: 24px; opacity: 0.8;
         }
-
         .painting-forest {
             background: linear-gradient(to bottom right, #56ab2f 0%, #a8e063 100%);
             position: relative;
@@ -245,7 +241,6 @@
             position: absolute;
             bottom: 0; left: 50%; transform: translateX(-50%); font-size: 40px; opacity: 0.5;
         }
-
         .polaroid-caption {
             font-family: 'Dancing Script', cursive;
             font-size: 1em;
@@ -257,13 +252,13 @@
             text-align: center;
         }
 
+        /* 播放器区域 */
         .playlist {
             margin: 20px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
-        
         .track-btn {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -280,14 +275,12 @@
             font-weight: 600;
             text-align: left;
         }
-        
         .track-btn:hover, .track-btn.active {
             background: var(--accent);
             color: white;
             transform: translateX(5px);
             box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3);
         }
-
         .track-info { display: flex; align-items: center; gap: 10px; }
         .track-icon { font-size: 1.2em; }
         .playing-indicator { font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
@@ -333,7 +326,6 @@
         }
         .firefly::before { background: rgba(255,255,0,0.2); opacity: 0.4; animation: drift ease alternate infinite; }
         .firefly::after { background: white; opacity: 0; box-shadow: 0 0 0vw 0vw yellow; animation: drift ease alternate infinite, flash ease infinite; }
-        
         @keyframes drift { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes flash { 0%, 30%, 100% { opacity: 0; box-shadow: 0 0 0vw 0vw yellow; } 5% { opacity: 1; box-shadow: 0 0 2vw 0.4vw yellow; } }
 
@@ -374,9 +366,8 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
-        <!-- 抽象派画廊：用 CSS 绘制，永不 404！ -->
         <div class="gallery-section">
-            <div class="gallery-title">🖼️ Memory Gallery (Abstract Art)</div>
+            <div class="gallery-title">🖼️ Memory Gallery</div>
             <div class="gallery-grid">
                 <div class="polaroid" style="--rotation: -5deg;">
                     <div class="painting painting-starry"></div>
@@ -399,11 +390,12 @@
             </div>
             
             <div class="bilibili-container">
-                <iframe id="bili-player" class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1Da4y1a7at&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+                <!-- 默认播放 Cardigan (更换为更稳的高清源 BV1iuxszCEUb) -->
+                <iframe id="bili-player" class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1iuxszCEUb&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
             </div>
 
             <div class="playlist" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                <button class="track-btn active" onclick="changeVideo(this, 'BV1Da4y1a7at')">
+                <button class="track-btn active" onclick="changeVideo(this, 'BV1iuxszCEUb')">
                     <span class="track-icon">🌲</span> 
                     <div style="text-align:left;">
                         <div style="font-weight:bold;">cardigan (folklore)</div>
@@ -431,7 +423,7 @@
         </div>
 
         <p style="margin: 30px 20px; font-style: italic;">
-            "即使世界断网，这里依然有花，有画，有音乐。 💖"
+            "修好了！这次绝对能听了！✨"
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
