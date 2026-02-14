@@ -24,7 +24,77 @@
         h1 { font-family: 'Dancing Script', cursive; color: var(--accent); font-size: 3em; margin: 20px 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
         .magic-switch { position: absolute; top: 20px; right: 20px; font-size: 1.8em; cursor: pointer; background: none; border: none; transition: transform 0.3s; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); z-index: 20; }
         .magic-switch:hover { transform: scale(1.2) rotate(20deg); }
-        .garden { display: flex; justify-content: center; gap: 25px; margin-bottom: 30px; flex-wrap: wrap; min-height: 100px; }
+        .garden { display: flex; justify-content: center; gap: 25px; margin-bottom: 30px; flex-wrap: wrap; min-height: 100px; position: relative; }
+        
+        /* 梦幻小屋 - Dreamy Cottage */
+        .cottage-container {
+            position: absolute;
+            bottom: -20px; /* Slightly lower */
+            left: 5%; /* Relative positioning */
+            width: 120px;
+            height: 100px;
+            z-index: 0; 
+            pointer-events: none; 
+            opacity: 0.6; /* More subtle by default */
+            transition: opacity 0.5s;
+        }
+        .header-area:hover .cottage-container { opacity: 0.9; }
+
+        .cottage-roof {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 50px solid #8d6e63;
+            position: absolute;
+            top: -50px;
+            left: 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .cottage-body {
+            width: 100px;
+            height: 70px;
+            background: linear-gradient(to bottom, #fff3e0, #ffe0b2);
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            border-radius: 4px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-top: 10px;
+        }
+
+        .cottage-window {
+            width: 25px;
+            height: 25px;
+            background: #ffeb3b; /* 亮灯 */
+            border: 3px solid #795548;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #ffeb3b; /* 发光 */
+            animation: flicker 4s infinite alternate;
+        }
+
+        .cottage-door {
+            width: 30px;
+            height: 50px;
+            background: #5d4037;
+            border-radius: 15px 15px 0 0;
+            margin-top: auto;
+        }
+
+        @keyframes flicker {
+            0%, 100% { box-shadow: 0 0 15px #ffeb3b, 0 0 5px #ffeb3b; opacity: 1; }
+            50% { box-shadow: 0 0 10px #ffc107, 0 0 2px #ffc107; opacity: 0.8; }
+        }
+
+        /* 夜间模式调整 */
+        body.night-mode .cottage-roof { border-bottom-color: #4e342e; }
+        body.night-mode .cottage-body { background: linear-gradient(to bottom, #5d4037, #3e2723); }
+        body.night-mode .cottage-window { background: #ffc107; box-shadow: 0 0 20px #ffeb3b; }
+
         .flower-item { position: relative; cursor: pointer; transition: transform 0.3s; }
         .flower-item:hover { transform: scale(1.3) rotate(5deg); }
         .flower-emoji { font-size: 3em; display: block; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
@@ -99,7 +169,16 @@
         <div class="banner-css"></div>
         <div class="header-area">
             <h1>Iris's Secret Garden</h1>
-            <div class="garden"></div>
+            <div class="garden">
+                <!-- 梦幻小屋 HTML -->
+                <div class="cottage-container">
+                    <div class="cottage-roof"></div>
+                    <div class="cottage-body">
+                        <div class="cottage-window"></div>
+                        <div class="cottage-window"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="content-grid">
