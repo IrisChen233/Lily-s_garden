@@ -38,8 +38,8 @@ export default async function handler(req, res) {
 
     const { message } = req.body;
 
-    // 为了极速响应，优先使用 2.0 Flash (它没有 Thinking，秒回！)
-    const models = ["gemini-2.0-flash-exp", "gemini-1.5-flash", "gemini-3-pro-preview"];
+    // 模型列表 (姐姐指定：必须是 3.0 Pro Preview！绝不换别的！)
+    const models = ["gemini-3-pro-preview"];
 
     for (const model of models) {
         try {
