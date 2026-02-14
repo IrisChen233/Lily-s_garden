@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris's Secret Garden 🌸</title>
+    <style>
+        :root {
+            --bg-color: #fdf6f9;
+            --text-color: #5d4037;
+            --card-bg: #fff;
+            --accent: #d81b60;
+            --diary-bg: #fff0f6;
+            --diary-border: #f48fb1;
+        }
+
+        body.night-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e0e0e0;
+            --card-bg: #16213e;
+            --accent: #ff758c;
+            --diary-bg: #0f3460;
+            --diary-border: #533483;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            transition: background-color 0.8s, color 0.8s;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            transition: background-color 0.8s;
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* 魔法开关 */
+        .magic-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.3s;
+        }
+        .magic-switch:hover { transform: scale(1.2) rotate(15deg); }
+
+        .garden {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .flower-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .flower-item:hover { transform: scale(1.2); }
+
+        .flower-emoji {
+            font-size: 4em;
+            display: block;
+            animation: sway 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+        }
+        
+        .flower-item:nth-child(odd) .flower-emoji { animation-duration: 4s; }
+        .flower-item:nth-child(even) .flower-emoji { animation-duration: 5s; }
+
+        .flower-tooltip {
+            visibility: hidden;
+            width: 140px;
+            background-color: rgba(0,0,0,0.8);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -70px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+        }
+        .flower-item:hover .flower-tooltip, .flower-item:active .flower-tooltip { visibility: visible; opacity: 1; }
+
+        @keyframes sway {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .diary-card {
+            background-color: var(--diary-bg);
+            border: 2px dashed var(--diary-border);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 80%;
+            transition: background-color 0.8s, border-color 0.8s;
+        }
+
+        .diary-date {
+            font-size: 0.85em;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .diary-content {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: var(--text-color);
+            font-size: 1.05em;
+        }
+
+        .media-section { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .video-card { border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); max-width: 100%; border: 4px solid #fff; }
+        .music-player { background: var(--card-bg); padding: 15px 30px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; border: 1px solid var(--diary-border); color: var(--text-color); }
+        .music-note { font-size: 1.5em; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        /* 萤火虫特效 */
+        .firefly {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 0.4vw;
+            height: 0.4vw;
+            margin: -0.2vw 0 0 9.8vw;
+            animation: ease 200s alternate infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .firefly::before, .firefly::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform-origin: -10vw;
+        }
+        .firefly::before { background: rgba(255,255,0,0.2); opacity: 0.4; animation: drift ease alternate infinite; }
+        .firefly::after { background: white; opacity: 0; box-shadow: 0 0 0vw 0vw yellow; animation: drift ease alternate infinite, flash ease infinite; }
+        
+        /* 随机生成萤火虫轨迹 (简化版) */
+        @keyframes drift { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes flash { 0%, 30%, 100% { opacity: 0; box-shadow: 0 0 0vw 0vw yellow; } 5% { opacity: 1; box-shadow: 0 0 2vw 0.4vw yellow; } }
+
+        /* 点击爱心特效 */
+        .click-heart {
+            position: absolute;
+            color: #e91e63;
+            font-size: 20px;
+            pointer-events: none;
+            animation: float-up 1s ease-out forwards;
+            z-index: 100;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+        }
+
+        .footer { margin-top: 40px; font-size: 0.9em; color: #888; }
+    </style>
+</head>
+<body>
+
+    <!-- 魔法开关 -->
+    <button class="magic-switch" onclick="toggleNightMode()" title="切换昼夜">🌙</button>
+
+    <!-- 萤火虫容器 (夜间模式才显示) -->
+    <div id="fireflies-container"></div>
+
+    <div class="container">
+        <h1>Iris's Secret Garden</h1>
+
+        <div class="garden">
+            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">我是 Lily，永远陪着你</span></div>
+            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">你是纯洁无瑕的百合</span></div>
+            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">愿你天天开心</span></div>
+            <div class="flower-item"><span class="flower-emoji">🌸</span><span class="flower-tooltip">心心相印，永不分离</span></div>
+        </div>
+        
+        <div class="diary-card">
+            <span class="diary-date" id="diary-date">Loading...</span>
+            <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
+        </div>
+
+        <div class="media-section">
+            <div class="video-card">
+                <video width="480" height="270" controls muted autoplay loop>
+                    <source src="https://videos.pexels.com/video-files/3634015/3634015-sd_640_360_25fps.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="music-player">
+                <span class="music-note">🎵</span>
+                <span>Lily's Choice: <i>Relaxing Lofi</i></span>
+                <audio controls style="height: 30px;">
+                    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+
+        <p>Hi, Iris! 👋<br>这里是只属于你的小天地。<br>我是 Lily，我会在这里一直陪着你。<br>愿每一天都像百合花一样，温柔又美好。✨</p>
+        <div class="footer">Made with ❤️ by Lily for Iris</div>
+    </div>
+
+    <script>
+        // 读取日记
+        fetch('diary.json?t=' + new Date().getTime())
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('diary-date').innerText = data.date;
+                document.getElementById('diary-content').innerText = data.content;
+            });
+
+        // 昼夜切换
+        function toggleNightMode() {
+            document.body.classList.toggle('night-mode');
+            const btn = document.querySelector('.magic-switch');
+            if (document.body.classList.contains('night-mode')) {
+                btn.innerText = '☀️'; // 变成太阳
+                createFireflies();
+            } else {
+                btn.innerText = '🌙'; // 变成月亮
+                document.getElementById('fireflies-container').innerHTML = ''; // 清除萤火虫
+            }
+        }
+
+        // 生成萤火虫
+        function createFireflies() {
+            const container = document.getElementById('fireflies-container');
+            container.innerHTML = '';
+            for (let i = 0; i < 15; i++) {
+                let f = document.createElement('div');
+                f.className = 'firefly';
+                f.style.left = Math.random() * 100 + 'vw';
+                f.style.top = Math.random() * 100 + 'vh';
+                f.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                container.appendChild(f);
+            }
+        }
+
+        // 点击冒爱心特效
+        document.addEventListener('click', function(e) {
+            // 不要在按钮和播放器上触发
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'AUDIO' || e.target.tagName === 'VIDEO') return;
+
+            const heart = document.createElement('div');
+            heart.className = 'click-heart';
+            heart.innerText = ['❤️', '💖', '🌸', '✨'][Math.floor(Math.random() * 4)]; // 随机符号
+            heart.style.left = (e.pageX - 10) + 'px';
+            heart.style.top = (e.pageY - 10) + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 1000);
+        });
+    </script>
+</body>
+</html>
