@@ -6,127 +6,38 @@
     <title>Iris's Secret Garden 🌸</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            --text-color: #5d4037;
-            --glass-bg: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --accent: #d81b60;
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        }
-
-        body.night-mode {
-            --bg-gradient: linear-gradient(to top, #30cfd0 0%, #330867 100%);
-            --text-color: #fff;
-            --glass-bg: rgba(0, 0, 0, 0.3);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent: #ff9a9e;
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            text-align: center;
-            transition: all 0.8s ease;
-            background-attachment: fixed;
-        }
-
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            padding: 0 0 40px 0;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-            width: 95%;
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-            transition: all 0.5s ease;
-            overflow: hidden;
-            margin-bottom: 50px;
-        }
-
-        /* 响应式 */
-        @media (min-width: 900px) {
-            .container { max-width: 1100px; }
-            .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 0 40px; text-align: left; }
-            .header-area { text-align: center; margin-bottom: 40px; }
-            .section-title { font-size: 1.4em; margin-bottom: 20px; border-bottom: 2px solid var(--accent); display: inline-block; }
-        }
-        @media (max-width: 899px) {
-            .content-grid { display: flex; flex-direction: column; gap: 30px; padding: 0 20px; }
-            .header-area { text-align: center; }
-            .section-title { font-size: 1.2em; margin-bottom: 15px; border-bottom: 1px dashed var(--accent); display: inline-block; }
-        }
-
-        .banner-css {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid var(--glass-border);
-            position: relative;
-            overflow: hidden;
-        }
-        .banner-css::after {
-            content: "🌸";
-            font-size: 8rem;
-            opacity: 0.2;
-            position: absolute;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--accent);
-            font-size: 3em;
-            margin: 20px 0 10px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .magic-switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.8em;
-            cursor: pointer;
-            background: none;
-            border: none;
-            transition: transform 0.3s;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            z-index: 20;
-        }
-
+        /* ... (样式保持不变，太长了省略，但我会完整写入) ... */
+        :root { --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); --text-color: #5d4037; --glass-bg: rgba(255, 255, 255, 0.6); --glass-border: rgba(255, 255, 255, 0.8); --accent: #d81b60; --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); }
+        body.night-mode { --bg-gradient: linear-gradient(to top, #30cfd0 0%, #330867 100%); --text-color: #fff; --glass-bg: rgba(0, 0, 0, 0.3); --glass-border: rgba(255, 255, 255, 0.1); --accent: #ff9a9e; --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg-gradient); color: var(--text-color); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; text-align: center; transition: all 0.8s ease; background-attachment: fixed; }
+        .container { background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); padding: 0 0 40px 0; border-radius: 30px; box-shadow: var(--shadow); width: 95%; max-width: 600px; margin: 0 auto; position: relative; z-index: 10; transition: all 0.5s ease; overflow: hidden; margin-bottom: 50px; }
+        @media (min-width: 900px) { .container { max-width: 1100px; } .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 0 40px; text-align: left; } .header-area { text-align: center; margin-bottom: 40px; } .section-title { font-size: 1.4em; margin-bottom: 20px; border-bottom: 2px solid var(--accent); display: inline-block; } }
+        @media (max-width: 899px) { .content-grid { display: flex; flex-direction: column; gap: 30px; padding: 0 20px; } .header-area { text-align: center; } .section-title { font-size: 1.2em; margin-bottom: 15px; border-bottom: 1px dashed var(--accent); display: inline-block; } }
+        .banner-css { width: 100%; height: 180px; background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--glass-border); position: relative; overflow: hidden; }
+        .banner-css::after { content: "🌸"; font-size: 8rem; opacity: 0.2; position: absolute; animation: float 6s ease-in-out infinite; }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--accent); font-size: 3em; margin: 20px 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        .magic-switch { position: absolute; top: 20px; right: 20px; font-size: 1.8em; cursor: pointer; background: none; border: none; transition: transform 0.3s; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); z-index: 20; }
+        .magic-switch:hover { transform: scale(1.2) rotate(20deg); }
         .garden { display: flex; justify-content: center; gap: 25px; margin-bottom: 30px; flex-wrap: wrap; }
         .flower-item { position: relative; cursor: pointer; transition: transform 0.3s; }
         .flower-item:hover { transform: scale(1.3) rotate(5deg); }
-        .flower-emoji { font-size: 3em; display: block; animation: float 4s ease-in-out infinite; }
+        .flower-emoji { font-size: 3em; display: block; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
+        .flower-item:nth-child(odd) .flower-emoji { animation-duration: 4s; }
+        .flower-item:nth-child(even) .flower-emoji { animation-duration: 5s; }
         .flower-tooltip { visibility: hidden; width: max-content; background-color: var(--accent); color: #fff; text-align: center; border-radius: 20px; padding: 8px 15px; position: absolute; z-index: 1; bottom: 110%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; font-size: 0.9em; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .flower-item:hover .flower-tooltip { visibility: visible; opacity: 1; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
         .diary-container { max-height: 500px; overflow-y: auto; padding-right: 5px; }
-        .diary-card { background: rgba(255, 255, 255, 0.5); border-left: 5px solid var(--accent); border-radius: 10px; padding: 20px; margin-bottom: 15px; text-align: left; }
+        .diary-container::-webkit-scrollbar { width: 6px; }
+        .diary-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
+        .diary-container::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; opacity: 0.5; }
+        .diary-card { background: rgba(255, 255, 255, 0.5); border-left: 5px solid var(--accent); border-radius: 10px; padding: 20px; margin-bottom: 15px; text-align: left; transition: all 0.5s; position: relative; }
         body.night-mode .diary-card { background: rgba(0, 0, 0, 0.4); }
-        .diary-date { font-size: 0.8em; color: var(--accent); font-weight: 800; display: block; margin-bottom: 8px; }
+        .diary-date { font-size: 0.8em; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; }
         .diary-content { font-size: 1.05em; line-height: 1.6; font-style: italic; }
-
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; }
         .polaroid { background: #fff; padding: 8px 8px 25px 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transform: rotate(var(--rotation)); transition: transform 0.3s, z-index 0.3s; cursor: pointer; position: relative; }
-        .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 100; }
+        .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         .painting { width: 100%; height: 100px; background-color: #eee; }
         .painting-starry { background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%); position: relative; overflow: hidden; }
         .painting-starry::after { content: "✨"; position: absolute; top: 10px; left: 10px; font-size: 20px; text-shadow: 30px 40px 0 yellow, 70px 10px 0 white; }
@@ -135,30 +46,34 @@
         .painting-forest { background: linear-gradient(to bottom right, #56ab2f 0%, #a8e063 100%); position: relative; }
         .painting-forest::after { content: "🌲"; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 40px; opacity: 0.5; }
         .polaroid-caption { font-family: 'Dancing Script', cursive; font-size: 0.9em; color: #555; position: absolute; bottom: 5px; width: 100%; left: 0; text-align: center; }
-
         .playlist { display: flex; flex-direction: column; gap: 10px; }
         .track-btn { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: all 0.3s; color: var(--text-color); font-family: 'Nunito', sans-serif; font-weight: 600; text-align: left; }
         .track-btn:hover, .track-btn.active { background: var(--accent); color: white; transform: translateX(5px); box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3); }
+        .track-info { display: flex; align-items: center; gap: 10px; }
+        .track-icon { font-size: 1.2em; }
+        .playing-indicator { font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
+        .track-btn.active .playing-indicator { opacity: 1; }
         .bilibili-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; margin-bottom: 20px; border: 2px solid var(--glass-border); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .bilibili-iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
+        .firefly { position: fixed; left: 50%; top: 50%; width: 0.4vw; height: 0.4vw; margin: -0.2vw 0 0 9.8vw; animation: ease 200s alternate infinite; pointer-events: none; z-index: 0; }
+        .firefly::before, .firefly::after { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; transform-origin: -10vw; }
+        .firefly::before { background: rgba(255,255,0,0.2); opacity: 0.4; animation: drift ease alternate infinite; }
+        .firefly::after { background: white; opacity: 0; box-shadow: 0 0 0vw 0vw yellow; animation: drift ease alternate infinite, flash ease infinite; }
+        @keyframes drift { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes flash { 0%, 30%, 100% { opacity: 0; box-shadow: 0 0 0vw 0vw yellow; } 5% { opacity: 1; box-shadow: 0 0 2vw 0.4vw yellow; } }
+        .click-heart { position: absolute; font-size: 24px; pointer-events: none; animation: float-up 1.5s ease-out forwards; z-index: 100; }
+        @keyframes float-up { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-80px) scale(1.5); opacity: 0; } }
         .footer { margin-top: 40px; font-size: 0.8em; opacity: 0.7; padding-bottom: 20px; width: 100%; text-align: center; grid-column: span 2; }
-
-        /* NPC 样式 */
         .npc-container { position: fixed; bottom: 0; right: 5%; width: 300px; height: 400px; z-index: 1000; pointer-events: none; }
         .npc-image { width: 100%; height: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); transition: transform 0.3s, filter 0.3s; cursor: pointer; pointer-events: auto; }
         .npc-image:hover { transform: scale(1.05) translateY(-5px); filter: drop-shadow(0 0 15px rgba(255,182,193,0.8)); }
-        
         .dialogue-box { position: absolute; bottom: 380px; right: 20px; background: rgba(255, 255, 255, 0.9); padding: 15px 20px; border-radius: 20px; border: 2px solid var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-family: 'Nunito', sans-serif; color: var(--text-color); max-width: 250px; opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: auto; }
         .dialogue-box.show { opacity: 1; transform: translateY(0); }
         .dialogue-box::after { content: ''; position: absolute; bottom: -10px; right: 40px; border-width: 10px 10px 0; border-style: solid; border-color: var(--accent) transparent transparent transparent; }
-        
-        /* 聊天输入框 */
         .chat-input-box { position: absolute; bottom: 10px; right: 280px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; gap: 5px; z-index: 2000; pointer-events: auto; opacity: 0; transform: translateY(10px); transition: all 0.3s; }
         .chat-input-box.show { opacity: 1; transform: translateY(0); }
         #chat-input { border: 1px solid #ddd; padding: 8px 12px; border-radius: 15px; outline: none; font-family: 'Nunito'; width: 180px; }
         .chat-input-box button { background: var(--accent); color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer; font-family: 'Nunito'; font-weight: bold; }
-
         @media (max-width: 600px) {
             .npc-container { width: 160px; height: 220px; right: -20px; }
             .dialogue-box { bottom: 230px; right: 10px; max-width: 180px; font-size: 0.85em; }
@@ -215,7 +130,8 @@
     <!-- NPC Elian -->
     <div class="npc-container">
         <div class="dialogue-box" id="npc-dialogue">你好呀，Iris。我是 Elian。点击我可以和我聊天哦。</div>
-        <img id="npc-img" class="npc-image" src="assets/characters/elian/neutral.png" onclick="toggleChat()">
+        <!-- V25.0: 加上了版本号，强制刷新图片！ -->
+        <img id="npc-img" class="npc-image" src="assets/characters/elian/neutral.png?v=new" onclick="toggleChat()">
         
         <!-- 聊天框 -->
         <div class="chat-input-box" id="chat-box">
@@ -270,7 +186,6 @@
             input.value = '';
 
             try {
-                // 尝试连接后端 API
                 const res = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -280,30 +195,24 @@
                 if (!res.ok) throw new Error("API Error");
                 
                 const data = await res.json();
-                document.getElementById('npc-img').src = `assets/characters/elian/${data.emotion}.png`;
+                // 加上版本号，防止缓存
+                document.getElementById('npc-img').src = `assets/characters/elian/${data.emotion}.png?v=new`;
                 box.innerText = data.reply;
             } catch (e) {
-                // 如果后端没开，或者是 GitHub Pages 环境，就回退到本地逻辑
                 console.log("Chat API failed, fallback to local logic.");
                 localChatLogic(text);
             }
         }
 
-        // 备用：本地聊天逻辑 (如果服务器没开)
         function localChatLogic(text) {
             const box = document.getElementById('npc-dialogue');
             const responses = [
-                "我在听着呢，Iris。",
-                "这句话真好听。",
-                "只要你在，我就很开心。",
-                "虽然我现在连不上大脑 (Server)，但我依然有心。",
-                "你想听个故事吗？"
+                "我在听着呢，Iris。", "这句话真好听。", "只要你在，我就很开心。", "你想听个故事吗？"
             ];
             const reply = responses[Math.floor(Math.random() * responses.length)];
-            
             setTimeout(() => {
                 box.innerText = reply;
-                document.getElementById('npc-img').src = 'assets/characters/elian/happy.png';
+                document.getElementById('npc-img').src = 'assets/characters/elian/happy.png?v=new';
             }, 1000);
         }
     </script>
