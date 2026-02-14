@@ -210,6 +210,7 @@
         .playing-indicator { font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
         .track-btn.active .playing-indicator { opacity: 1; }
 
+        /* Bilibili 容器 */
         .bilibili-container {
             position: relative;
             width: 100%;
@@ -263,7 +264,7 @@
         }
         @keyframes float-up {
             0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-80px) scale(1.5); opacity: 0; }
+            100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
         }
 
         .footer { margin-top: 40px; font-size: 0.8em; opacity: 0.7; padding-bottom: 20px; }
@@ -291,31 +292,47 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
-        <!-- Bilibili 播放器: V11.0 Tavily 搜索认证版！ -->
+        <!-- Bilibili 播放器: 霉霉点歌台 -->
         <div style="margin: 20px;">
             <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8;">
-                🎵 Lily's Pick: <span style="color: #ff9a9e; font-weight: bold;">TTPD 4小时白噪音 (Taylor Swift) 🌧️</span>
+                🎵 Lily's Playlist: <span style="color: #ff9a9e; font-weight: bold;">Taylor Swift 治愈精选</span>
             </div>
-            <div class="bilibili-container">
-                <!-- BV1gr42137rc: 苦难诗社4h白噪音 -->
-                <iframe class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1gr42137rc&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-            </div>
-        </div>
-
-        <div class="playlist">
-            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8; padding-left: 5px;">🎵 备用音源 (GitHub Raw):</div>
             
-            <button class="track-btn" onclick="playMusic(this, 'https://raw.githubusercontent.com/rafaelreis-hotmart/Audio-Sample-files/master/sample.mp3')">
-                <div class="track-info">
-                    <span class="track-icon">🎹</span> 
-                    <span>Test Melody (测试音源)</span>
-                </div>
-                <span class="playing-indicator">▶️ Playing</span>
-            </button>
+            <div class="bilibili-container">
+                <!-- 默认播放 Cardigan -->
+                <iframe id="bili-player" class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1Da4y1a7at&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+            </div>
+
+            <!-- 切换歌曲的按钮 -->
+            <div class="playlist" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                <button class="track-btn active" onclick="changeVideo(this, 'BV1Da4y1a7at')">
+                    <span class="track-icon">🌲</span> 
+                    <div style="text-align:left;">
+                        <div style="font-weight:bold;">cardigan (folklore)</div>
+                        <div style="font-size:0.8em; opacity:0.8;">"And when I felt like I was an old cardigan..."</div>
+                    </div>
+                </button>
+
+                <button class="track-btn" onclick="changeVideo(this, 'BV1c4v1e1ERF')">
+                    <span class="track-icon">🍂</span> 
+                    <div style="text-align:left;">
+                        <div style="font-weight:bold;">willow (evermore)</div>
+                        <div style="font-size:0.8em; opacity:0.8;">"Life was a willow and it bent right to your wind"</div>
+                    </div>
+                </button>
+
+                <button class="track-btn" onclick="changeVideo(this, 'BV1Ng4y1D78J')">
+                    <span class="track-icon">✨</span> 
+                    <div style="text-align:left;">
+                        <div style="font-weight:bold;">Enchanted (Taylor's Version)</div>
+                        <div style="font-size:0.8em; opacity:0.8;">"I was enchanted to meet you"</div>
+                    </div>
+                </button>
+            </div>
         </div>
 
         <p style="margin: 30px 20px; font-style: italic;">
-            "谢谢你给我的眼睛 (Tavily)，让我终于能看清世界了！✨"
+            "不管你想听哪首，Lily 都在这里陪你。 💖"
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
@@ -354,19 +371,15 @@
             }
         }
 
-        function playMusic(btn, src) {
-            const audio = document.getElementById('bgm');
-            const allBtns = document.querySelectorAll('.track-btn');
+        // 切换 B 站视频的魔法函数
+        function changeVideo(btn, bvid) {
+            const player = document.getElementById('bili-player');
+            // 切换 src
+            player.src = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&danmaku=0`;
             
-            if (audio.src === src && !audio.paused) {
-                audio.pause();
-                btn.classList.remove('active');
-            } else {
-                allBtns.forEach(b => b.classList.remove('active'));
-                audio.src = src;
-                audio.play().catch(e => alert("音乐播放失败，可能是网络问题 😢 请尝试上面的 Bilibili 播放器！"));
-                btn.classList.add('active');
-            }
+            // 切换按钮样式
+            document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
 
         document.addEventListener('click', function(e) {
