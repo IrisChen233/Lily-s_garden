@@ -367,7 +367,7 @@
         </div>
 
         <div class="gallery-section">
-            <div class="gallery-title">🖼️ Memory Gallery</div>
+            <div class="gallery-title">🖼️ Memory Gallery (Abstract)</div>
             <div class="gallery-grid">
                 <div class="polaroid" style="--rotation: -5deg;">
                     <div class="painting painting-starry"></div>
@@ -390,29 +390,41 @@
             </div>
             
             <div class="bilibili-container">
-                <!-- 默认播放 Cardigan (更换为更稳的高清源 BV1iuxszCEUb) -->
-                <iframe id="bili-player" class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1iuxszCEUb&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+                <!-- 默认播放：爵士合集 (最稳) -->
+                <iframe id="bili-player" class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1jA411L7fe&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
             </div>
 
             <div class="playlist" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                <button class="track-btn active" onclick="changeVideo(this, 'BV1iuxszCEUb')">
-                    <span class="track-icon">🌲</span> 
+                <button class="track-btn active" onclick="changeVideo(this, 'BV1jA411L7fe')">
+                    <span class="track-icon">☕</span> 
                     <div style="text-align:left;">
-                        <div style="font-weight:bold;">cardigan (folklore)</div>
+                        <div style="font-weight:bold;">Relaxing Jazz (Cafe Vibes)</div>
+                        <div style="font-size:0.8em; opacity:0.8;">默认播放 - 轻松爵士改编</div>
                     </div>
                 </button>
+
+                <button class="track-btn" onclick="changeVideo(this, 'BV1Np4y1V7cd')">
+                    <span class="track-icon">🌲</span> 
+                    <div style="text-align:left;">
+                        <div style="font-weight:bold;">cardigan (Lyric Video)</div>
+                        <div style="font-size:0.8em; opacity:0.8;">换了歌词版，这个应该能看！</div>
+                    </div>
+                </button>
+
                 <button class="track-btn" onclick="changeVideo(this, 'BV1c4v1e1ERF')">
                     <span class="track-icon">🍂</span> 
                     <div style="text-align:left;">
-                        <div style="font-weight:bold;">willow (evermore)</div>
+                        <div style="font-weight:bold;">willow (Official MV)</div>
                     </div>
                 </button>
+
                 <button class="track-btn" onclick="changeVideo(this, 'BV1Ng4y1D78J')">
                     <span class="track-icon">✨</span> 
                     <div style="text-align:left;">
                         <div style="font-weight:bold;">Enchanted (Taylor's Version)</div>
                     </div>
                 </button>
+                
                 <button class="track-btn" onclick="changeVideo(this, 'BV1gr42137rc')">
                     <span class="track-icon">🌧️</span> 
                     <div style="text-align:left;">
@@ -423,7 +435,7 @@
         </div>
 
         <p style="margin: 30px 20px; font-style: italic;">
-            "修好了！这次绝对能听了！✨"
+            "修好了修好了！这次绝对能响！✨"
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
