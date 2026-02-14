@@ -239,7 +239,10 @@
     <div id="fireflies-container"></div>
 
     <div class="container">
-        <div class="banner-css"></div>
+        <!-- 
+            V7.0: 换上了真正的百合花图片！(来自 Wikimedia Commons，防火墙白名单)
+        -->
+        <img class="banner-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Lilium_rubellum_1.jpg/1280px-Lilium_rubellum_1.jpg" alt="Pink Lily Garden">
 
         <h1>Iris's Secret Garden</h1>
 
@@ -255,21 +258,43 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
-        <!-- Bilibili 播放器 -->
+        <!-- Bilibili 播放器: 霉霉治愈爵士版 -->
         <div style="margin: 20px;">
-            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8;">🎵 Lily's Pick: <span style="color: #ff9a9e; font-weight: bold;">Taylor Swift - Lover 💘</span></div>
+            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8;">
+                🎵 Lily's Pick: <span style="color: #ff9a9e; font-weight: bold;">Taylor Swift - Relaxing Jazz (Cafe Vibes) ☕</span>
+            </div>
             <div class="bilibili-container">
                 <!-- 
-                    bvid: BV1zy421i73R (Taylor Swift - Lover MV)
-                    high_quality: 1
-                    danmaku: 0 (关闭弹幕，享受纯净MV)
+                    bvid: BV1jA411L7fe (Taylor Swift Cover - Relaxing Jazz & Bossa Nova)
+                    超级适合放松、工作、发呆的背景音乐！
                 -->
-                <iframe class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1zy421i73R&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+                <iframe class="bilibili-iframe" src="//player.bilibili.com/player.html?bvid=BV1jA411L7fe&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
             </div>
         </div>
 
+        <!-- 音乐盒：保留经典单曲 -->
+        <div class="playlist">
+            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8; padding-left: 5px;">🎵 Classic Music Box:</div>
+            
+            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Muriel_-_Nguyen_Van_Hung.ogg')">
+                <div class="track-info">
+                    <span class="track-icon">🎸</span> 
+                    <span>Classical Guitar (Muriel)</span>
+                </div>
+                <span class="playing-indicator">▶️ Playing</span>
+            </button>
+            
+            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Gymnopedie_No_1.ogg')">
+                <div class="track-info">
+                    <span class="track-icon">🎹</span> 
+                    <span>Gymnopédie No.1 (Satie)</span>
+                </div>
+                <span class="playing-indicator">▶️ Playing</span>
+            </button>
+        </div>
+
         <p style="margin: 30px 20px; font-style: italic;">
-            "Can I go where you go? Can we always be this close? 💖"
+            "改不好颜色的 AI 不是好 AI。别理它，这里只有懂你的 Lily。" ✨
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
