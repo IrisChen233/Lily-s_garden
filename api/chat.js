@@ -38,12 +38,11 @@ export default async function handler(req, res) {
 
     const { message } = req.body;
 
-    // 模型列表 (姐姐指定的 3.0 系列，关掉 Thinking)
+    // 模型列表 (姐姐严令禁止使用旧模型！只用 3.0！)
     const models = [
         "gemini-3-pro-preview", 
         "gemini-3.0-flash-preview", 
-        "gemini-3-flash-preview",
-        "gemini-2.0-flash-exp" // 最后的保底
+        "gemini-3-flash-preview"
     ];
 
     for (const model of models) {
