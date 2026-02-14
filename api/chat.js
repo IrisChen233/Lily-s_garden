@@ -1,5 +1,5 @@
-// api/chat.js - Vercel Serverless Function
-const axios = require('axios'); // 使用 axios，更稳
+// api/chat.js - Vercel Serverless Function (Clean Version)
+const axios = require('axios'); // 只依赖 axios
 
 const GEN_AI_KEY = process.env.GEMINI_API_KEY;
 
@@ -21,6 +21,7 @@ You are Iris's gentle, supportive companion.
 `;
 
 export default async function handler(req, res) {
+    // CORS
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -37,8 +38,8 @@ export default async function handler(req, res) {
 
     const { message } = req.body;
 
-    // 姐姐指定的 3.0 模型 (必须置顶！)
-    const models = ["gemini-3-pro-preview", "gemini-2.5-flash", "gemini-2.0-flash-exp"];
+    // 模型列表 (Gemini 3 Pro + Flash)
+    const models = ["gemini-3-pro-preview", "gemini-2.0-flash-exp", "gemini-1.5-flash"];
 
     for (const model of models) {
         try {
@@ -50,7 +51,8 @@ export default async function handler(req, res) {
             });
 
             const rawText = response.data.candidates[0].content.parts[0].text;
-            const data = JSON.parse(rawText);
+            const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const data = JSON.parse(cleanJson);
             
             return res.status(200).json(data);
 
@@ -59,5 +61,5 @@ export default async function handler(req, res) {
         }
     }
 
-    res.status(500).json({ reply: "Elian 暂时连不上 (所有 3.0 模型都试过了)...", emotion: "shy" });
+    res.status(500).json({ reply: "Elian 连不上云端... (Vercel Error)", emotion: "shy", action: "none" });
 }
