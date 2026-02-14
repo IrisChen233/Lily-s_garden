@@ -42,8 +42,8 @@ export default async function handler(req, res) {
 
     const { message } = req.body;
 
-    // 模型列表 (姐姐指定：必须是 3.0 Pro Preview！绝不换别的！)
-    const models = ["gemini-3-pro-preview"];
+    // 模型列表 (姐姐指示：尝试 3.0 Flash 以关闭思考模式)
+    const models = ["gemini-3.0-flash-preview", "gemini-3-pro-preview"];
 
     for (const model of models) {
         try {
