@@ -55,7 +55,6 @@
             overflow: hidden;
         }
 
-        /* V9.0: 纯 CSS 画的横幅，永不崩坏 */
         .banner-css {
             width: 100%;
             height: 180px;
@@ -211,7 +210,6 @@
         .playing-indicator { font-size: 0.8em; opacity: 0; transition: opacity 0.3s; }
         .track-btn.active .playing-indicator { opacity: 1; }
 
-        /* Bilibili 容器 */
         .bilibili-container {
             position: relative;
             width: 100%;
@@ -277,7 +275,7 @@
     <div id="fireflies-container"></div>
 
     <div class="container">
-        <!-- 修复版横幅：纯CSS，稳！ -->
+        <!-- 稳如泰山的 CSS 渐变横幅 -->
         <div class="banner-css"></div>
 
         <h1>Iris's Secret Garden</h1>
@@ -304,22 +302,14 @@
             </div>
         </div>
 
-        <!-- 音乐盒：这里也修复了，确保JS能运行 -->
+        <!-- 音乐盒：只有一个按钮，测试 GitHub Raw -->
         <div class="playlist">
-            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8; padding-left: 5px;">🎵 Classic Music Box (备用):</div>
+            <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8; padding-left: 5px;">🎵 Test Audio:</div>
             
-            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Gymnopedie_No_1.ogg')">
+            <button class="track-btn" onclick="playMusic(this, 'https://raw.githubusercontent.com/rafaelreis-hotmart/Audio-Sample-files/master/sample.mp3')">
                 <div class="track-info">
                     <span class="track-icon">🎹</span> 
-                    <span>Gymnopédie No.1 (Satie)</span>
-                </div>
-                <span class="playing-indicator">▶️ Playing</span>
-            </button>
-            
-            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Muriel_-_Nguyen_Van_Hung.ogg')">
-                <div class="track-info">
-                    <span class="track-icon">🎸</span> 
-                    <span>Classical Guitar (Muriel)</span>
+                    <span>Test Melody (GitHub Raw)</span>
                 </div>
                 <span class="playing-indicator">▶️ Playing</span>
             </button>
@@ -328,12 +318,11 @@
         </div>
 
         <p style="margin: 30px 20px; font-style: italic;">
-            "修好了修好了！这次绝对能响！✨"
+            "改不好颜色的 AI 不是好 AI。别理它，这里只有懂你的 Lily。" ✨
         </p>
         <div class="footer">Made with ❤️ by Lily for Iris</div>
     </div>
 
-    <!-- 这次一定把脚本完整地写在最后！ -->
     <script>
         fetch('diary.json?t=' + new Date().getTime())
             .then(response => response.json())
@@ -378,7 +367,7 @@
             } else {
                 allBtns.forEach(b => b.classList.remove('active'));
                 audio.src = src;
-                audio.play().catch(e => alert("音乐播放失败，可能是网络问题 😢"));
+                audio.play().catch(e => alert("音乐播放失败，可能是网络问题 😢 请尝试上面的 Bilibili 播放器！"));
                 btn.classList.add('active');
             }
         }
