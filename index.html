@@ -73,6 +73,9 @@
         .chat-input-box.show { opacity: 1; transform: translateY(0); }
         #chat-input { border: 1px solid #ddd; padding: 8px 12px; border-radius: 15px; outline: none; font-family: 'Nunito'; width: 180px; }
         .chat-input-box button { background: var(--accent); color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer; font-family: 'Nunito'; font-weight: bold; }
+        /* TTS 按钮增强 */
+        .tts-play-btn { position: absolute; bottom: -40px; right: 0; background: #fff; border: 2px solid var(--accent); border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 1.2em; line-height: 32px; text-align: center; z-index: 10000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: transform 0.2s; }
+        .tts-play-btn:active { transform: scale(0.9); }
         @media (max-width: 600px) {
             .npc-container { width: 160px; height: 220px; right: -20px; }
             .dialogue-box { bottom: 230px; right: 10px; max-width: 180px; font-size: 0.85em; }
@@ -159,7 +162,7 @@
 
         function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
 
-        let ttsAudio = new Audio(); // 全局音频对象，用于预加载
+        let ttsAudio = new Audio(); 
 
         async function sendMessage() {
             const input = document.getElementById('chat-input');
@@ -171,10 +174,13 @@
             box.classList.add('show');
             input.value = '';
 
-            // ⚠️ 关键操作：在用户点击/回车的一瞬间，播放静音，解锁 Audio Context
-            // 只要这一行执行了，浏览器就认为“是用户允许播放声音的”
+            // 静音解锁 Audio Context
             ttsAudio.src = 'data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';
-            ttsAudio.play().catch(() => {}); // 忽略可能的错误，尽力而为
+            ttsAudio.play().catch(() => {});
+
+            // 清除旧的按钮
+            const oldBtn = box.querySelector('.tts-play-btn');
+            if(oldBtn) oldBtn.remove();
 
             try {
                 const res = await fetch('/api/chat', {
@@ -200,7 +206,6 @@
                     }
                 }
 
-                // 播放 TTS (复用刚才解锁的 ttsAudio 对象)
                 if (data.reply) {
                     try {
                         const ttsRes = await fetch('/api/tts', {
@@ -211,10 +216,9 @@
                         if (ttsRes.ok) {
                             const blob = await ttsRes.blob();
                             const audioUrl = URL.createObjectURL(blob);
-                            ttsAudio.src = audioUrl; // 替换成真的音频
+                            ttsAudio.src = audioUrl;
                             ttsAudio.play().catch(e => {
-                                console.log("Still blocked:", e);
-                                // 如果还是不行，才显示按钮
+                                console.log("Still blocked, showing BIG button:", e);
                                 const btn = document.createElement('button');
                                 btn.innerText = '🔊';
                                 btn.className = 'tts-play-btn';
