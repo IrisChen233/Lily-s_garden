@@ -6,6 +6,7 @@
     <title>Iris's Secret Garden 🌸</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* ... (保留之前的样式) ... */
         :root {
             --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             --text-color: #5d4037;
@@ -44,7 +45,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            padding: 0 0 40px 0; /* 顶部padding去掉，让图片顶头 */
+            padding: 0 0 40px 0;
             border-radius: 30px;
             box-shadow: var(--shadow);
             max-width: 600px;
@@ -52,16 +53,28 @@
             position: relative;
             z-index: 10;
             transition: all 0.5s ease;
-            overflow: hidden; /* 防止图片溢出 */
+            overflow: hidden;
         }
 
-        /* 顶部图片横幅 */
-        .banner-img {
+        /* 用 CSS 画一个永不崩坏的横幅！ */
+        .banner-css {
             width: 100%;
             height: 220px;
-            object-fit: cover;
-            object-position: center;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-bottom: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner-css::after {
+            content: "🌸";
+            font-size: 10rem;
+            opacity: 0.2;
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
         }
 
         h1 {
@@ -245,8 +258,11 @@
     <div id="fireflies-container"></div>
 
     <div class="container">
-        <!-- 漂亮的静态横幅图片 (来自 Unsplash，稳定且唯美) -->
-        <img class="banner-img" src="https://images.unsplash.com/photo-1490750967868-58cb75062ed0?q=80&w=2070&auto=format&fit=crop" alt="Flower Garden">
+        <!-- 
+            防御性编程！既然图片容易挂，我们就用 CSS 画一个！
+            这个 banner-css 是纯代码画的，永远不会 404！
+        -->
+        <div class="banner-css"></div>
 
         <h1>Iris's Secret Garden</h1>
 
@@ -262,33 +278,33 @@
             <div class="diary-content" id="diary-content">正在读取 Lily 的心事... 🌸</div>
         </div>
 
-        <!-- 真正的精选曲子 -->
+        <!-- 使用 GitHub 官方 CDN 或更稳定的源 -->
         <div class="playlist">
             <div style="text-align: left; font-size: 0.9em; margin-bottom: 5px; opacity: 0.8; padding-left: 5px;">🎵 Lily's Music Box:</div>
             
-            <!-- 1. 治愈系：River Flows in You (钢琴版风格) -->
-            <button class="track-btn" onclick="playMusic(this, 'https://cdn.pixabay.com/download/audio/2022/02/07/audio_658252277d.mp3?filename=piano-moment-11993.mp3')">
+            <!-- 换成了更可能通过防火墙的链接，或者数据URI (如果太长就不行) -->
+            <!-- 这里尝试用 Wikimedia Commons 的源，它通常是白名单 -->
+            
+            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Muriel_-_Nguyen_Van_Hung.ogg')">
+                <div class="track-info">
+                    <span class="track-icon">🎸</span> 
+                    <span>Classical Guitar (Muriel)</span>
+                </div>
+                <span class="playing-indicator">▶️ Playing</span>
+            </button>
+            
+            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/3/30/Gymnopedie_No_1.ogg')">
                 <div class="track-info">
                     <span class="track-icon">🎹</span> 
-                    <span>Piano Moment (温柔钢琴)</span>
+                    <span>Gymnopédie No.1 (Satie)</span>
                 </div>
                 <span class="playing-indicator">▶️ Playing</span>
             </button>
             
-            <!-- 2. 经典：Gymnopédie No.1 (萨蒂 - 极简主义经典) -->
-            <button class="track-btn" onclick="playMusic(this, 'https://cdn.pixabay.com/download/audio/2022/05/24/audio_3499092c43.mp3?filename=gymnopedie-no-1-satie-112000.mp3')">
+            <button class="track-btn" onclick="playMusic(this, 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Schubert_-_Impromptu_Op._90_No._3.ogg')">
                 <div class="track-info">
-                    <span class="track-icon">🌙</span> 
-                    <span>Gymnopédie No.1 (萨蒂)</span>
-                </div>
-                <span class="playing-indicator">▶️ Playing</span>
-            </button>
-            
-            <!-- 3. 轻快：Morning Coffee (吉他) -->
-            <button class="track-btn" onclick="playMusic(this, 'https://cdn.pixabay.com/download/audio/2020/09/14/audio_a15053c7db.mp3?filename=good-morning-5229.mp3')">
-                <div class="track-info">
-                    <span class="track-icon">☕</span> 
-                    <span>Good Morning (轻快吉他)</span>
+                    <span class="track-icon">🎼</span> 
+                    <span>Schubert Impromptu</span>
                 </div>
                 <span class="playing-indicator">▶️ Playing</span>
             </button>
@@ -339,16 +355,13 @@
             const audio = document.getElementById('bgm');
             const allBtns = document.querySelectorAll('.track-btn');
             
-            // 如果点击的是当前正在播放的
             if (audio.src === src && !audio.paused) {
                 audio.pause();
                 btn.classList.remove('active');
             } else {
-                // 重置所有按钮状态
                 allBtns.forEach(b => b.classList.remove('active'));
-                
                 audio.src = src;
-                audio.play();
+                audio.play().catch(e => alert("无法播放音乐，可能是网络拦截了音频文件 😢"));
                 btn.classList.add('active');
             }
         }
