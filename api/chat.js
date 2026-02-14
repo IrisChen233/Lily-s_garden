@@ -1,19 +1,5 @@
 // api/chat.js - Vercel Serverless Function
-const { GoogleGenerativeAI } = require("@google/generative-ai"); // 这里需要改成用 fetch/axios，或者在 package.json 里加依赖
-// 为了简单且不依赖 build 过程，我直接用 axios (如果不允许第三方包，就用 fetch)
-// Vercel 默认支持 node-fetch，或者我们可以提交 package.json
-
-// 咱们还是用原生的 fetch 吧，这样最轻量，不需要 npm install
-// 或者... Vercel 部署会自动安装 package.json 里的依赖！
-// 所以我还是用 axios 吧，习惯了。
-
-/* 
- * 注意：在 Vercel 上，我们不能直接读取本地的 json 配置文件 (因为不在 repo 里，或者不安全)。
- * 我们应该使用环境变量 (Environment Variables)。
- * 
- * 姐姐，等你部署到 Vercel 后，需要在 Vercel 后台添加一个变量：
- * GEMINI_API_KEY = AIzaSy...
- */
+const axios = require('axios'); // 使用 axios，更稳
 
 const GEN_AI_KEY = process.env.GEMINI_API_KEY;
 
@@ -35,14 +21,10 @@ You are Iris's gentle, supportive companion.
 `;
 
 export default async function handler(req, res) {
-    // 允许跨域 (CORS)
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') {
         res.status(200).end();
@@ -50,34 +32,32 @@ export default async function handler(req, res) {
     }
 
     if (!GEN_AI_KEY) {
-        return res.status(500).json({ reply: "Elian 的大脑没有密钥 (请在 Vercel 设置 GEMINI_API_KEY)", emotion: "shy" });
+        return res.status(500).json({ reply: "Missing GEMINI_API_KEY", emotion: "shy" });
     }
 
     const { message } = req.body;
 
-    try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEN_AI_KEY}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+    // 姐姐指定的 3.0 模型 (必须置顶！)
+    const models = ["gemini-3-pro-preview", "gemini-2.5-flash", "gemini-2.0-flash-exp"];
+
+    for (const model of models) {
+        try {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEN_AI_KEY}`;
+            
+            const response = await axios.post(url, {
                 contents: [{ role: "user", parts: [{ text: SYSTEM_PROMPT + "\n\nUser: " + message }] }],
                 generationConfig: { responseMimeType: "application/json" }
-            })
-        });
+            });
 
-        if (!response.ok) {
-            throw new Error(`Gemini API Error: ${response.statusText}`);
+            const rawText = response.data.candidates[0].content.parts[0].text;
+            const data = JSON.parse(rawText);
+            
+            return res.status(200).json(data);
+
+        } catch (error) {
+            console.error(`Model ${model} failed:`, error.message);
         }
-
-        const json = await response.json();
-        const rawText = json.candidates[0].content.parts[0].text;
-        const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-        const data = JSON.parse(cleanJson);
-
-        res.status(200).json(data);
-
-    } catch (error) {
-        console.error(error);
-        res.status(200).json({ reply: "Elian 的大脑连不上云端... (网络波动)", emotion: "shy", action: "none" });
     }
+
+    res.status(500).json({ reply: "Elian 暂时连不上 (所有 3.0 模型都试过了)...", emotion: "shy" });
 }
