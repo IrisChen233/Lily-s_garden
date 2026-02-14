@@ -73,7 +73,6 @@
         .chat-input-box.show { opacity: 1; transform: translateY(0); }
         #chat-input { border: 1px solid #ddd; padding: 8px 12px; border-radius: 15px; outline: none; font-family: 'Nunito'; width: 180px; }
         .chat-input-box button { background: var(--accent); color: white; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer; font-family: 'Nunito'; font-weight: bold; }
-        .tts-play-btn { background: none; border: none; cursor: pointer; font-size: 1.2em; margin-left: 5px; vertical-align: middle; animation: pulse 2s infinite; }
         @media (max-width: 600px) {
             .npc-container { width: 160px; height: 220px; right: -20px; }
             .dialogue-box { bottom: 230px; right: 10px; max-width: 180px; font-size: 0.85em; }
@@ -90,9 +89,7 @@
         <div class="banner-css"></div>
         <div class="header-area">
             <h1>Iris's Secret Garden</h1>
-            <div class="garden">
-                <!-- 种花系统将在这里动态渲染 -->
-            </div>
+            <div class="garden"></div>
         </div>
 
         <div class="content-grid">
@@ -124,29 +121,22 @@
         </div>
     </div>
 
-    <!-- NPC Elian -->
     <div class="npc-container">
         <div class="dialogue-box" id="npc-dialogue">你好呀，Iris。我是 Elian。点击我可以和我聊天哦。</div>
         <img id="npc-img" class="npc-image" src="assets/characters/elian/neutral.png?v=new" onclick="toggleChat()">
-        
-        <!-- 聊天框 -->
         <div class="chat-input-box" id="chat-box">
             <input type="text" id="chat-input" placeholder="和 Elian 说点什么..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">发送</button>
         </div>
     </div>
 
-    <!-- 种花系统 -->
     <script src="js/planting.js"></script>
 
     <script>
-        fetch('diary.json?t=' + new Date().getTime())
-            .then(r => r.json()).then(d => {
-                const c = document.getElementById('diary-container'); c.innerHTML = '';
-                (Array.isArray(d) ? d : [d]).forEach(e => {
-                    c.innerHTML += `<div class="diary-card"><span class="diary-date">${e.date}</span><div class="diary-content">${e.content}</div></div>`;
-                });
-            }).catch(e => console.log('日记失败', e));
+        fetch('diary.json?t=' + new Date().getTime()).then(r => r.json()).then(d => {
+            const c = document.getElementById('diary-container'); c.innerHTML = '';
+            (Array.isArray(d) ? d : [d]).forEach(e => { c.innerHTML += `<div class="diary-card"><span class="diary-date">${e.date}</span><div class="diary-content">${e.content}</div></div>`; });
+        }).catch(e => console.log('日记失败', e));
 
         function toggleNightMode() {
             document.body.classList.toggle('night-mode');
@@ -164,17 +154,13 @@
         function toggleChat() {
             const box = document.getElementById('chat-box');
             isChatting = !isChatting;
-            if (isChatting) {
-                box.classList.add('show');
-                document.getElementById('chat-input').focus();
-            } else {
-                box.classList.remove('show');
-            }
+            if (isChatting) { box.classList.add('show'); document.getElementById('chat-input').focus(); } else { box.classList.remove('show'); }
         }
 
         function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
 
-        // V56.0 - 最终逻辑 (支持 Action 和 TTS)
+        let ttsAudio = new Audio(); // 全局音频对象，用于预加载
+
         async function sendMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value;
@@ -185,8 +171,12 @@
             box.classList.add('show');
             input.value = '';
 
+            // ⚠️ 关键操作：在用户点击/回车的一瞬间，播放静音，解锁 Audio Context
+            // 只要这一行执行了，浏览器就认为“是用户允许播放声音的”
+            ttsAudio.src = 'data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';
+            ttsAudio.play().catch(() => {}); // 忽略可能的错误，尽力而为
+
             try {
-                // 如果部署到 Vercel，API 地址是 /api/chat，本地也是 /api/chat
                 const res = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -197,36 +187,20 @@
                 
                 const data = await res.json();
                 
-                // 1. 更新图片
                 if (data.emotion) document.getElementById('npc-img').src = `assets/characters/elian/${data.emotion}.png?v=new`;
-                // 2. 更新文字
                 if (data.reply) box.innerText = data.reply;
                 
-                // 3. 执行动作 (切歌/关灯)
                 if (data.action && data.action !== 'none') {
-                    console.log("🎬 Action:", data.action);
-                    if (data.action === 'set_night') { 
-                        if (!document.body.classList.contains('night-mode')) toggleNightMode();
-                    }
-                    else if (data.action === 'set_day') { 
-                        if (document.body.classList.contains('night-mode')) toggleNightMode();
-                    }
+                    if (data.action === 'set_night' && !document.body.classList.contains('night-mode')) toggleNightMode();
+                    else if (data.action === 'set_day' && document.body.classList.contains('night-mode')) toggleNightMode();
                     else if (data.action.startsWith('play_')) {
                         const track = data.action.replace('play_', '');
-                        const map = {
-                            'jazz': 'BV1jA411L7fe',
-                            'cardigan': 'BV1Np4y1V7cd',
-                            'willow': 'BV1c4v1e1ERF',
-                            'enchanted': 'BV1Ng4y1D78J',
-                            'noise': 'BV1gr42137rc'
-                        };
-                        if (map[track]) {
-                            document.getElementById('bili-player').src = `//player.bilibili.com/player.html?bvid=${map[track]}&page=1&high_quality=1&danmaku=0`;
-                        }
+                        const map = { 'jazz': 'BV1jA411L7fe', 'cardigan': 'BV1Np4y1V7cd', 'willow': 'BV1c4v1e1ERF', 'enchanted': 'BV1Ng4y1D78J', 'noise': 'BV1gr42137rc' };
+                        if (map[track]) document.getElementById('bili-player').src = `//player.bilibili.com/player.html?bvid=${map[track]}&page=1&high_quality=1&danmaku=0`;
                     }
                 }
 
-                // 4. 播放语音 (Vercel TTS)
+                // 播放 TTS (复用刚才解锁的 ttsAudio 对象)
                 if (data.reply) {
                     try {
                         const ttsRes = await fetch('/api/tts', {
@@ -237,39 +211,31 @@
                         if (ttsRes.ok) {
                             const blob = await ttsRes.blob();
                             const audioUrl = URL.createObjectURL(blob);
-                            const audio = new Audio(audioUrl);
-                            
-                            // 尝试自动播放
-                            audio.play().catch(e => {
-                                console.log("Autoplay blocked, showing button:", e);
-                                // 如果自动播放被拦截，在对话框旁显示一个小喇叭
+                            ttsAudio.src = audioUrl; // 替换成真的音频
+                            ttsAudio.play().catch(e => {
+                                console.log("Still blocked:", e);
+                                // 如果还是不行，才显示按钮
                                 const btn = document.createElement('button');
                                 btn.innerText = '🔊';
                                 btn.className = 'tts-play-btn';
-                                btn.onclick = () => audio.play();
+                                btn.onclick = () => ttsAudio.play();
                                 box.appendChild(btn);
                             });
                         }
-                    } catch (e) {
-                        console.log("TTS play failed:", e);
-                    }
+                    } catch (e) { console.log("TTS Error:", e); }
                 }
 
             } catch (e) {
-                console.log("Chat API failed, fallback to local logic.");
+                console.log("Chat Failed:", e);
                 localChatLogic(text);
             }
         }
 
         function localChatLogic(text) {
             const box = document.getElementById('npc-dialogue');
-            const responses = [
-                "我在听着呢，Iris。", "这句话真好听。", "只要你在，我就很开心。", "你想听个故事吗？"
-            ];
+            const responses = ["我在听着呢。", "只要你在，我就很开心。", "想听个故事吗？"];
             const reply = responses[Math.floor(Math.random() * responses.length)];
-            setTimeout(() => {
-                box.innerText = reply;
-            }, 1000);
+            setTimeout(() => { box.innerText = reply; }, 1000);
         }
     </script>
 </body>
